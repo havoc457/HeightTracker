@@ -13,9 +13,9 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" 
-        android:name="edu.berkeley.SoutsideSeniors.heighttracker.App" >
+        android:name="edu.berkeley.SouthsideSeniors.HeightTracker.App" >
         <activity
-            android:name="edu.berkeley.SoutsideSeniors.heighttracker.MainMenu"
+            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.MainMenu"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,35 +24,35 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="edu.berkeley.SoutsideSeniors.heighttracker.Wall"
+            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.Wall"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name="edu.berkeley.SoutsideSeniors.heighttracker.Measure"
+            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.Measure"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name="edu.berkeley.SoutsideSeniors.heighttracker.Log"
+            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.Log"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name="edu.berkeley.SoutsideSeniors.heighttracker.Compare"
+            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.Compare"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name="edu.berkeley.SoutsideSeniors.heighttracker.SettingsActivity"
+            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.SettingsActivity"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name="edu.berkeley.SoutsideSeniors.heighttracker.ViewUsers"
+            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.ViewUsers"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name="edu.berkeley.SoutsideSeniors.heighttracker.EditUsers"
+            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.EditUsers"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name="edu.berkeley.SoutsideSeniors.heighttracker.Results"
+            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.Results"
             android:noHistory="true" >
         </activity>
     </application>
