@@ -1,0 +1,96 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainMenuScroll"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="top"
+    android:background="@color/yellow" >
+
+    <RelativeLayout
+        android:id="@+id/mainMenuRelative"
+        android:layout_width="fill_parent"
+        android:layout_height="565dp">
+
+        <TextView
+            android:id="@+id/recentMeasurement"
+            android:layout_width="fill_parent"
+            android:layout_height="180dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/chalkboard2"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:paddingTop="1dp"
+            android:textSize="45sp"
+            android:typeface="normal" />
+
+        <GridLayout
+            android:id="@+id/mainMenuGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/recentMeasurement"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="11dp"
+            android:columnCount="4"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:rowCount="2"
+            android:stretchMode="spacingWidthUniform"
+            tools:context=".MainMenu" >
+
+            <ImageButton
+                android:id="@+id/log"
+                android:layout_width="145dp"
+                android:layout_height="145dp"
+                android:layout_column="0"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="10dp"
+                android:layout_row="1"
+                android:onClick="viewLog"
+                android:scaleType="fitCenter"
+                android:src="@drawable/logicon" />
+
+            <ImageButton
+                android:id="@+id/compare"
+                android:layout_width="145dp"
+                android:layout_height="145dp"
+                android:layout_column="1"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:layout_margin="10dp"
+                android:layout_row="1"
+                android:onClick="viewCompare"
+                android:scaleType="fitCenter"
+                android:src="@drawable/compareicon" />
+
+            <ImageButton
+                android:id="@+id/measure"
+                android:layout_width="145dp"
+                android:layout_height="145dp"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:layout_row="0"
+                android:onClick="viewMeasure"
+                android:scaleType="fitCenter"
+                android:src="@drawable/measureicon" />
+
+            <ImageButton
+                android:id="@+id/wall"
+                android:layout_width="145dp"
+                android:layout_height="145dp"
+                android:layout_column="1"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_margin="10dp"
+                android:layout_row="0"
+                android:onClick="viewWall"
+                android:scaleType="fitCenter"
+                android:src="@drawable/wallicon" />
+        </GridLayout>
+
+    </RelativeLayout>
+
+</ScrollView>

@@ -1,0 +1,207 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/wallScroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@color/yellow">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".Wall" >
+
+        <ImageView
+            android:id="@+id/dadHeightArrow"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@+id/zeroMark"
+            android:layout_toLeftOf="@+id/zeroMark"
+            android:scaleType="fitXY"
+            android:src="@drawable/blue_arrow_paint" />
+        
+		<ImageView
+		    android:id="@+id/momHeightArrow"
+		    android:layout_width="100dp"
+		    android:layout_height="30dp"
+		    android:layout_alignBottom="@+id/zeroMark"
+		    android:layout_toLeftOf="@+id/zeroMark"
+		    android:scaleType="fitXY"
+		    android:src="@drawable/blue_arrow_paint" />
+
+        <ImageView
+            android:id="@+id/futureArrow"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@+id/zeroMark"
+            android:layout_marginBottom="15dp"
+            android:layout_toLeftOf="@+id/zeroMark"
+            android:scaleType="fitXY"
+            android:src="@drawable/red_arrow_paint" />
+        
+        <ImageView
+            android:id="@+id/zeroMark"
+            android:layout_width="125dp"
+            android:layout_height="61dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ruler0"
+            android:scaleType="fitXY"
+            android:src="@drawable/zero_marking" />
+        
+        <ImageView
+            android:id="@+id/ruler0"
+            android:layout_width="125dp"
+            android:layout_height="700dp"
+            android:scaleType="fitXY"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ruler1"
+            android:src="@drawable/ruler_zero" />
+
+        <ImageView
+            android:id="@+id/ruler1"
+            android:layout_width="125dp"
+            android:layout_height="700dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/ruler2"
+            android:scaleType="fitXY"
+            android:src="@drawable/ruler_one" />
+
+        <ImageView
+            android:id="@+id/current"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@+id/ruler0"
+            android:layout_alignBottom="@+id/ruler0"
+            android:scaleType="fitXY"
+            android:src="@drawable/green_arrow_paint" />
+        
+        <ImageView
+            android:id="@+id/current2"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_toLeftOf="@+id/ruler0"
+            android:layout_alignBottom="@+id/ruler0"
+            android:scaleType="fitXY"
+            android:src="@drawable/green_arrow_paint" />
+        
+		<TextView
+		    android:id="@+id/pastText"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignBottom="@+id/current2"
+		    android:layout_marginRight="10dp"
+		    android:layout_toLeftOf="@+id/current2"
+		    android:layout_marginBottom="1dp"
+		    android:text="11/02/12"
+		    android:textSize="26sp" />
+
+        <ImageView
+            android:id="@+id/ruler2"
+            android:layout_width="125dp"
+            android:layout_height="700dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:layout_below="@+id/ruler3"
+            android:src="@drawable/ruler_two" />
+        
+		<ImageView
+            android:id="@+id/ruler3"
+            android:layout_width="125dp"
+            android:layout_height="700dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:layout_below="@+id/ruler4"
+            android:src="@drawable/ruler_three" />
+		
+		<ImageView
+            android:id="@+id/ruler4"
+            android:layout_width="125dp"
+            android:layout_height="700dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:layout_below="@+id/ruler5"
+            android:src="@drawable/ruler_four" />
+		
+		<ImageView
+            android:id="@+id/ruler5"
+            android:layout_width="125dp"
+            android:layout_height="700dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:layout_below="@+id/ruler6"
+            android:src="@drawable/ruler_five" />
+		
+		<ImageView
+            android:id="@+id/ruler6"
+            android:layout_width="125dp"
+            android:layout_height="700dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:layout_below="@+id/ruler7"
+            android:src="@drawable/ruler_six" />
+		
+		<ImageView
+            android:id="@+id/ruler7"
+            android:layout_width="125dp"
+            android:layout_height="700dp"
+            android:layout_alignParentRight="true"
+            android:scaleType="fitXY"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ruler_seven" />
+		
+		<TextView
+		    android:id="@+id/dadHeightText"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignBottom="@+id/dadHeightArrow"
+		    android:layout_marginRight="10dp"
+		    android:layout_toLeftOf="@+id/dadHeightArrow"
+		    android:layout_marginBottom="2dp"
+		    android:text="@string/dad"
+		    android:textSize="26sp" />
+
+		<TextView
+		    android:id="@+id/momHeightText"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignBottom="@+id/momHeightArrow"
+		    android:layout_marginRight="10dp"
+		    android:layout_toLeftOf="@+id/momHeightArrow"
+		    android:layout_marginBottom="2dp"
+		    android:text="@string/mom"
+		    android:textSize="26sp" />
+		
+		<TextView
+		    android:id="@+id/userHeightText"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignBottom="@+id/current"
+		    android:layout_marginRight="10dp"
+		    android:layout_toLeftOf="@+id/current"
+		    android:layout_marginBottom="2dp"
+		    android:textSize="26sp" />
+		
+		<TextView
+		    android:id="@+id/futureText"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignBottom="@+id/futureArrow"
+		    android:layout_alignTop="@+id/futureArrow"
+		    android:layout_marginRight="10dp"
+		    android:layout_toLeftOf="@+id/futureArrow"
+		    android:text="@string/future"
+		    android:textSize="18sp" />
+
+		<ImageView
+		    android:id="@+id/userStar"
+		    android:layout_width="30dp"
+		    android:layout_height="30dp"
+		    android:layout_alignBottom="@+id/userHeightText"
+		    android:layout_toLeftOf="@+id/userHeightText"
+		    android:scaleType="fitXY"
+		    android:layout_marginBottom="2dp"
+		    android:layout_marginRight="10dp"
+		    android:src="@drawable/star" />
+
+    </RelativeLayout>
+
+</ScrollView>

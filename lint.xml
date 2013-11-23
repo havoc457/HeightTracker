@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="HardcodedText">
+        <ignore path="res/layout/activity_compare.xml" />
+        <ignore path="res/layout/activity_edit_users.xml" />
+        <ignore path="res/layout/activity_edit_users2.xml" />
+        <ignore path="res/layout/activity_measure.xml" />
+        <ignore path="res/layout/activity_results.xml" />
+        <ignore path="res/layout/activity_view_users.xml" />
+    </issue>
+</lint>

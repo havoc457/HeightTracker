@@ -1,0 +1,101 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/resultsScroll"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/yellow" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="546dp"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".Results" >
+
+        <TextView
+            android:id="@+id/resultsText"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/chalkboard2"
+            android:gravity="center"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:text="3'11''"
+            android:textSize="55sp"
+            android:typeface="normal" />
+
+        <TextView
+            android:id="@+id/dadHeightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupResults"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/resultsText"
+            android:layout_below="@+id/resultsText"
+            android:paddingTop="10dp" >
+
+            <RadioButton
+                android:id="@+id/radioUser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:text="User"
+                android:textSize="35sp" />
+
+            <RadioButton
+                android:id="@+id/radioOther"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/other"
+                android:textSize="35sp" />
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/radioGroupResults"
+            android:layout_alignRight="@+id/editCancel"
+            android:layout_below="@+id/radioGroupResults"
+            android:ems="15"
+            android:inputType="text"/>
+
+        <ImageButton
+            android:id="@+id/editCancel"
+            android:layout_width="160dp"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/editText"
+            android:layout_toLeftOf="@+id/dadHeightText"
+            android:paddingTop="30dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/cancel" 
+            android:onClick="viewMeasure"/>
+
+        <ImageButton
+            android:id="@+id/editSave"
+            android:layout_width="150dp"
+            android:layout_height="100dp"
+            android:layout_alignLeft="@+id/dadHeightText"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/editCancel"
+            android:paddingTop="30dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/save" 
+            android:onClick="viewWall"/>
+
+    </RelativeLayout>
+
+</ScrollView>

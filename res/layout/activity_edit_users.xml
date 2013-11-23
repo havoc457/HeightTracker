@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/editUserScroll2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@color/yellow" >
+
+    <RelativeLayout
+        android:id="@+id/editUserScroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <RelativeLayout
+            android:id="@+id/editUserLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/momInchesText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/dadInchesText"
+                android:layout_alignBottom="@+id/dadInchesText"
+                android:layout_alignParentRight="true"
+                android:paddingRight="17dp"
+                android:text="@string/inches"
+                android:textSize="12sp" />
+
+            <NumberPicker
+                android:id="@+id/momInchesPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/dadInchesPicker"
+                android:layout_marginBottom="15dp"
+                android:layout_toLeftOf="@+id/momInchesText" />
+
+            <TextView
+                android:id="@+id/momFeetText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/momInchesText"
+                android:layout_alignBottom="@+id/momInchesText"
+                android:layout_toLeftOf="@+id/momInchesPicker"
+                android:text="@string/feet"
+                android:textSize="12sp" />
+
+            <NumberPicker
+                android:id="@+id/momFeetPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/momInchesPicker"
+                android:layout_marginBottom="15dp"
+                android:layout_toLeftOf="@+id/momFeetText" />
+
+            <TextView
+                android:id="@+id/textName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="19dp"
+                android:paddingLeft="25dp"
+                android:paddingTop="5dp"
+                android:text="@string/name"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <NumberPicker
+                android:id="@+id/dadInchesPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/dadFeetPicker"
+                android:layout_marginBottom="15dp"
+                android:layout_toRightOf="@+id/dadFeetText"
+                android:background="@color/gray" />
+
+            <EditText
+                android:id="@+id/editName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/radioGroupEdit"
+                android:layout_alignLeft="@+id/dadHeightText"
+                android:layout_toLeftOf="@+id/blackline2"
+                android:ems="10"
+                android:inputType="text"
+                android:paddingLeft="15dp" >
+
+                <requestFocus />
+            </EditText>
+
+            <TextView
+                android:id="@+id/dadFeetText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dadHeightText"
+                android:layout_marginTop="81dp"
+                android:layout_toRightOf="@+id/dadFeetPicker"
+                android:text="@string/feet"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/momHeightText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/momFeetPicker"
+                android:layout_below="@+id/radioGroupEdit"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/mom_height"
+                android:textSize="20sp" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/momFeetPicker"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="35dp"
+                android:paddingTop="20dp" >
+
+                <RadioButton
+                    android:id="@+id/radioBoy"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Boy"
+                    android:textSize="20sp" />
+
+                <RadioButton
+                    android:id="@+id/radioMom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="Girl"
+                    android:textSize="20sp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/dadInchesText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/dadFeetText"
+                android:layout_alignBottom="@+id/dadFeetText"
+                android:layout_toRightOf="@+id/dadInchesPicker"
+                android:text="@string/inches"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/dadHeightText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/momHeightText"
+                android:layout_alignBottom="@+id/momHeightText"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="40dp"
+                android:text="@string/dad_height"
+                android:textSize="20sp" />
+
+            <NumberPicker
+                android:id="@+id/dadFeetPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/dadHeightText"
+                android:layout_below="@+id/dadHeightText"
+                android:layout_marginBottom="15dp"
+                android:paddingRight="5dp" />
+
+            <View
+                android:id="@+id/blackline1"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/editName"
+                android:layout_marginTop="22dp"
+                android:background="@android:color/black" />
+
+            <View
+                android:id="@+id/blackline2"
+                android:layout_width="2dp"
+                android:layout_height="200dp"
+                android:layout_alignBottom="@+id/momFeetPicker"
+                android:layout_alignTop="@+id/blackline1"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/black" />
+
+            <View
+                android:id="@+id/blackline3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/blackline2"
+                android:background="@android:color/black" />
+        </RelativeLayout>
+
+        <ImageButton
+            android:id="@+id/editSave"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/editUserLayout"
+            android:layout_marginTop="25dp"
+            android:onClick="save"
+            android:scaleType="fitXY"
+            android:src="@drawable/save" />
+    </RelativeLayout>
+
+</ScrollView>
