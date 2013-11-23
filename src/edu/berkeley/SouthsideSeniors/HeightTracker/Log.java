@@ -13,7 +13,6 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 import android.widget.TextView;
-import edu.berkeley.SouthsideSeniors.HeightTracker.R;
 
 public class Log extends Activity {
 	

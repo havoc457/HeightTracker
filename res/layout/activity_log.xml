@@ -45,7 +45,8 @@
                     <TableRow
                         android:id="@+id/tableRow1"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" >
+                        android:layout_height="wrap_content"
+                        tools:ignore="UselessParent" >
 
                         <CheckBox
                             android:id="@+id/checkBox1"
@@ -53,10 +54,11 @@
                             android:layout_height="wrap_content" />
 
                              <TextView
-					            android:padding="3dip"
-					            android:gravity="left"
-					            android:text="Sam"
-					            />
+                                 android:gravity="left"
+                                 android:padding="3dip"
+                                 android:text="Sam"
+                                 tools:ignore="HardcodedText" />
+
 					        <TextView
 					            android:padding="3dip"
 					            android:gravity="left"
@@ -81,8 +83,9 @@
                     <TableRow
                         android:id="@+id/tableRow2"
                         android:layout_width="wrap_content"
-                        
-                        android:layout_height="1px" android:background="#BDBDBD" >
+                        android:layout_height="1px"
+                        android:background="#BDBDBD"
+                        tools:ignore="UselessParent" >
 					        
                         <CheckBox
                             android:id="@+id/checkBox2"
