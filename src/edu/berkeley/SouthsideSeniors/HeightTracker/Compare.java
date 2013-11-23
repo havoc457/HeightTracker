@@ -57,23 +57,22 @@ public class Compare extends Activity {
 		spinner = (Spinner) findViewById(R.id.landmarkSpinner);
 		spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
 	  }
-	  
-	  public int compare(View view){
-		  
-		  return 0;
-	  }
 	 
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.compare, menu);
+		getMenuInflater().inflate(R.menu.log, menu);
 		return true;
 	}
-	
 	public boolean users(MenuItem item){
 		Intent i = new Intent(this, ViewUsers.class);
 		startActivity(i);
+	    return true;
+	}
+	
+	public boolean settings(MenuItem item){
+		//Intent i = new Intent(this, SettingsActivity.class);
+		//startActivity(i);
 	    return true;
 	}
 
