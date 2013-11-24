@@ -93,7 +93,7 @@
             android:layout_alignTop="@+id/editCancel"
             android:paddingTop="30dp"
             android:scaleType="fitXY"
-            android:src="@drawable/save" 
+            android:src="@drawable/saveshort" 
             android:onClick="viewWall"/>
 
     </RelativeLayout>
