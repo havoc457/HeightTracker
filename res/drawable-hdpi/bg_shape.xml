@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" 
+        android:layout_width="wrap_content"
+    	android:layout_height="fill_parent">
+	<item>
+	    <shape>
+		    <gradient
+			    android:angle="0"
+			    android:startColor="@color/yellow"
+			    android:endColor="#7e7e7e" />
+			<corners android:radius="50dp" />
+			
+		</shape>
+	</item>
+	<item>
+	    <bitmap
+	    android:src="@drawable/swipe_feet"
+	    android:gravity="center"
+	    android:layout_height="fill_parent"/>
+	</item>
+	</layer-list>
+

@@ -2,96 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yellow"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/yellow"
     tools:context=".Measure" >
-
-    <TextView
-        android:id="@+id/dadHeightText"
-        android:layout_width="wrap_content"
+    
+    <SeekBar
+        android:id="@+id/measure_slider"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:text="Val Debugg:" />
-
-    <Button
-        android:id="@+id/button_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/vec1"
-        android:layout_alignLeft="@+id/button_results"
-        android:onClick="startMeasure"
-        android:text="Start" />
-
-    <Button
-        android:id="@+id/button_results"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/vec1"
-        android:layout_alignLeft="@+id/textView1"
-        android:onClick="results"
-        android:text="Results" />
-
-    <TextView
-        android:id="@+id/vec2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView1"
-        android:layout_marginLeft="35dp"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView_magnitudeResult"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/vec2"
-        android:layout_alignTop="@+id/dadHeightText"
-        android:text="0.0"
-        android:textSize="32sp" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/dadHeightText"
-        android:layout_below="@+id/textView_magnitudeResult"
-        android:text="Vec3 Debugg:" />
-
-    <TextView
-        android:id="@+id/vec0"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/vec2"
-        android:layout_below="@+id/vec2"
-        android:layout_marginTop="15dp"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/vec1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/vec0"
-        android:layout_below="@+id/vec0"
-        android:layout_marginTop="16dp"
-        android:text="Large Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <LinearLayout
-        android:id="@+id/chart_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/button_results"
-        android:layout_marginTop="18dp"
-        android:orientation="vertical" >
-
-    </LinearLayout>
+        android:progress="0"
+        android:background="@drawable/bg_shape"
+        android:secondaryProgress="0"
+        android:progressDrawable="@drawable/slider_bg"
+		android:layout_centerVertical="true"  
+        android:thumb="@drawable/slider_thumb"
+	    android:minHeight="500dp"
+    	android:maxHeight="500dp"
+    	/>
 
 </RelativeLayout>

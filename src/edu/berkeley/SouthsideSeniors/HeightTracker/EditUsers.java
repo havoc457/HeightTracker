@@ -15,7 +15,7 @@ import android.widget.NumberPicker;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import edu.berkeley.SouthsideSeniors.HeightTracker.R;
+import android.widget.Toast;
 
 public class EditUsers extends Activity {
 	
@@ -83,44 +83,53 @@ public class EditUsers extends Activity {
 	}
 	
 	public void save(View view){
-		//Go back to the home view.
-	    Intent intent = new Intent(EditUsers.this, MainMenu.class);
-	    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
-	    startActivity(intent);
-	    SharedPreferences.Editor editor = preferences.edit();
-	    if (numEdit.equals("0")){
-	    	num_users++;
-	    	editor.putInt(current_user + "numMeasures", 0);
-	    }
+		
 	    EditText edit = ((EditText) findViewById(R.id.editName));
 	    current_user = edit.getText().toString();
 	    
-		NumberPicker np = (NumberPicker) findViewById(R.id.dadFeetPicker);
-		int dadFeet = np.getValue();
-		np = (NumberPicker) findViewById(R.id.dadInchesPicker);
-		int dadInches = np.getValue();
-		int dadHeight = 12*dadFeet + dadInches;
-		np = (NumberPicker) findViewById(R.id.momFeetPicker);
-		int momFeet = np.getValue();
-		np = (NumberPicker) findViewById(R.id.momInchesPicker);
-		int momInches = np.getValue();
-		int momHeight = 12*momFeet + momInches;
+	    if (current_user.equals("")){
+	    	Toast.makeText(getApplicationContext(), "Please enter your name.", Toast.LENGTH_SHORT).show();
+	    } else {
 		
-		RadioButton genderBtn = (RadioButton) findViewById(R.id.radioBoy);
-        boolean gender = true;
-        if (!genderBtn.isChecked()){
-        	gender = false;
-        }
-        
-        int eventual = estimateHeight(dadHeight, momHeight, gender);
-		editor.putInt(current_user+"dadHeight", dadHeight);
-		editor.putInt(current_user+"momHeight", momHeight);
-		editor.putBoolean(current_user+"Gender", gender);
-		editor.putInt(current_user+"eventual", eventual);
-	    editor.putString("user"+num_users, current_user);
-	    editor.putString("num_users", Integer.toString(num_users));
-	    editor.putString("current_user", current_user);
-	    editor.commit();
+			//Go back to the home view.
+		    Intent intent = new Intent(EditUsers.this, MainMenu.class);
+		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
+		    startActivity(intent);
+		    
+		    SharedPreferences.Editor editor = preferences.edit();
+		    if (numEdit.equals("0")){
+		    	num_users++;
+		    	editor.putInt(current_user + "numMeasures", 0);
+		    }
+	
+		    
+			NumberPicker np = (NumberPicker) findViewById(R.id.dadFeetPicker);
+			int dadFeet = np.getValue();
+			np = (NumberPicker) findViewById(R.id.dadInchesPicker);
+			int dadInches = np.getValue();
+			int dadHeight = 12*dadFeet + dadInches;
+			np = (NumberPicker) findViewById(R.id.momFeetPicker);
+			int momFeet = np.getValue();
+			np = (NumberPicker) findViewById(R.id.momInchesPicker);
+			int momInches = np.getValue();
+			int momHeight = 12*momFeet + momInches;
+			
+			RadioButton genderBtn = (RadioButton) findViewById(R.id.radioBoy);
+	        boolean gender = true;
+	        if (!genderBtn.isChecked()){
+	        	gender = false;
+	        }
+	        
+	        int eventual = estimateHeight(dadHeight, momHeight, gender);
+			editor.putInt(current_user+"dadHeight", dadHeight);
+			editor.putInt(current_user+"momHeight", momHeight);
+			editor.putBoolean(current_user+"Gender", gender);
+			editor.putInt(current_user+"eventual", eventual);
+		    editor.putString("user"+num_users, current_user);
+		    editor.putString("num_users", Integer.toString(num_users));
+		    editor.putString("current_user", current_user);
+		    editor.commit();
+	    }
 	    
 	}
 	
