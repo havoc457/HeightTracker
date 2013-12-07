@@ -40,7 +40,7 @@ public class Compare extends Activity {
 			current_height = 0;
 		} else {
 			current_user = preferences.getString("current_user", "");
-			current_height = preferences.getInt("current_height", 0);
+			current_height = preferences.getInt(current_user + "current_height", 0);
 			userName.setText("   " + current_user + "s!");
 		}
 		setTitle(current_user);

@@ -3,15 +3,17 @@ package edu.berkeley.SouthsideSeniors.HeightTracker;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import edu.berkeley.SouthsideSeniors.HeightTracker.R;
 
 public class Wall extends Activity {
 	
@@ -42,11 +44,6 @@ public class Wall extends Activity {
 		ImageView current = (ImageView) findViewById(R.id.current);
 		MarginLayoutParams mlp = (MarginLayoutParams) current.getLayoutParams();
 		mlp.setMargins(0, 0, 0, 175*(current_height-1) - 31);//all in pixels
-		current.setLayoutParams(mlp);
-		
-		current = (ImageView) findViewById(R.id.current2);
-		mlp = (MarginLayoutParams) current.getLayoutParams();
-		mlp.setMargins(0, 0, 0, 175*(current_height-4) - 31);//all in pixels
 		current.setLayoutParams(mlp);
 		
 		ImageView dad = (ImageView) findViewById(R.id.dadHeightArrow);
@@ -89,6 +86,43 @@ public class Wall extends Activity {
 			userText.setVisibility(View.GONE);
 			userStar.setVisibility(View.GONE);
 			current.setVisibility(View.GONE);
+		}
+		int numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);
+		RelativeLayout rl = (RelativeLayout) findViewById(R.id.wallLayout);
+		Resources r = getResources();
+		int width = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100, r.getDisplayMetrics()));
+		int height = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, r.getDisplayMetrics()));
+		int right = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics()));
+		int bottom = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics()));
+
+		System.out.println("numMeasures: " + numMeasuresUser);
+		for (int i = 0; i < numMeasuresUser-1; i++) {
+			
+			RelativeLayout.LayoutParams arrowParams = new RelativeLayout.LayoutParams(width, height);
+			arrowParams.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.ruler0);
+			arrowParams.addRule(RelativeLayout.LEFT_OF, R.id.ruler0);
+			
+
+			
+			ImageView pastArrow = new ImageView(this);
+			pastArrow.setImageResource(R.drawable.green_arrow_paint);
+			int measureResults = preferences.getInt(current_user + "Measure" + i, 0);
+			arrowParams.setMargins(0, 0, 0, 175*(measureResults-1) - 31);//all in pixels
+			pastArrow.setLayoutParams(arrowParams);
+			pastArrow.setScaleType(ImageView.ScaleType.FIT_XY);
+			pastArrow.setId(i+1);
+			
+			RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
+					 RelativeLayout.LayoutParams.WRAP_CONTENT);
+			textParams.addRule(RelativeLayout.ALIGN_BOTTOM, i+1);
+			textParams.addRule(RelativeLayout.LEFT_OF, i+1);
+			textParams.setMargins(0, 0, right, bottom);
+			
+			TextView pastText = new TextView(this);
+			pastText.setTextSize(18);
+			pastText.setText(preferences.getString(current_user + "Measure" + i + "Date", "No Date"));
+			rl.addView(pastArrow, arrowParams);
+			rl.addView(pastText, textParams);
 		}
 	}
 

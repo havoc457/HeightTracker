@@ -41,37 +41,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" 
                     android:stretchColumns="0,1,2,3" >
-
-                    <TableRow
-                        android:id="@+id/tableRow1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:ignore="UselessParent" >
-
-                        <CheckBox
-                            android:id="@+id/checkBox1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                             <TextView
-                                 android:gravity="left"
-                                 android:padding="3dip"
-                                 android:text="Sam"
-                                 tools:ignore="HardcodedText" />
-
-					        <TextView
-					            android:padding="3dip"
-					            android:gravity="left"
-					            android:text="01/02/1003"
-					            />
-					
-					        <TextView
-					            android:padding="3dip"
-					            android:gravity="left"
-					            android:text="5'11''"
-					            />  
-                    </TableRow>
-
+                   
                 </TableLayout>
 
                 <TableLayout
@@ -79,36 +49,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:stretchColumns="0,1,2,3" >
-
-                    <TableRow
-                        android:id="@+id/tableRow2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="1px"
-                        android:background="#BDBDBD"
-                        tools:ignore="UselessParent" >
-					        
-                        <CheckBox
-                            android:id="@+id/checkBox2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-					        
-                             <TextView
-					            android:padding="3dip"
-					            android:gravity="left"
-					            android:text="Sam"
-					            />
-					        <TextView
-					            android:padding="3dip"
-					            android:gravity="left"
-					            android:text="01/02/1003"
-					            />
-					
-					        <TextView
-					            android:padding="3dip"
-					            android:gravity="left"
-					            android:text="5'11''"
-					            />  
-                    </TableRow>
 
                 </TableLayout>
             </FrameLayout>

@@ -51,7 +51,28 @@ public class MainMenu extends Activity {
 			current_height_text = "Most Recent: " + Integer.toString(getFeet(current_height)) + "'" + Integer.toString(getInches(current_height))+ "\"";
 		}
 		recent.setText(current_height_text);
+	}
+	
+	@Override
+	protected void onResume() {
+	    super.onResume();
+	    TextView recent=(TextView)findViewById(R.id.recentMeasurement);
+		if (num_users == 0){
+			current_user = "Please Add New User";
+			current_height_text = "No Recent Height";
+			addUser(recent);
+		} else {
+			current_user = preferences.getString("current_user","Please Add New User");
+			current_height = preferences.getInt(current_user + "current_height", 0);
+		}
 		
+		setTitle(current_user);
+		if (current_height == 0){
+			current_height_text = "No Recent Height";
+		} else {
+			current_height_text = "Most Recent: " + Integer.toString(getFeet(current_height)) + "'" + Integer.toString(getInches(current_height))+ "\"";
+		}
+		recent.setText(current_height_text);
 	}
 
 	@Override

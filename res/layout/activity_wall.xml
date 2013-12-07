@@ -6,6 +6,7 @@
     android:background="@color/yellow">
 
     <RelativeLayout
+        android:id="@+id/wallLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".Wall" >
@@ -73,26 +74,6 @@
             android:layout_alignBottom="@+id/ruler0"
             android:scaleType="fitXY"
             android:src="@drawable/green_arrow_paint" />
-        
-        <ImageView
-            android:id="@+id/current2"
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:layout_toLeftOf="@+id/ruler0"
-            android:layout_alignBottom="@+id/ruler0"
-            android:scaleType="fitXY"
-            android:src="@drawable/green_arrow_paint" />
-        
-		<TextView
-		    android:id="@+id/pastText"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignBottom="@+id/current2"
-		    android:layout_marginRight="10dp"
-		    android:layout_toLeftOf="@+id/current2"
-		    android:layout_marginBottom="1dp"
-		    android:text="11/02/12"
-		    android:textSize="26sp" />
 
         <ImageView
             android:id="@+id/ruler2"
@@ -187,6 +168,7 @@
 		    android:layout_alignBottom="@+id/futureArrow"
 		    android:layout_alignTop="@+id/futureArrow"
 		    android:layout_marginRight="10dp"
+		    android:layout_marginBottom="5dp"
 		    android:layout_toLeftOf="@+id/futureArrow"
 		    android:text="@string/future"
 		    android:textSize="18sp" />

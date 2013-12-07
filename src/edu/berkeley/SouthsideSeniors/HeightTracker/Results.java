@@ -2,6 +2,7 @@ package edu.berkeley.SouthsideSeniors.HeightTracker;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
@@ -38,8 +39,6 @@ public class Results extends Activity {
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		TextView results=(TextView)findViewById(R.id.resultsText);
 		RadioButton user=(RadioButton)findViewById(R.id.radioUser);
-		//RadioButton other=(RadioButton)findViewById(R.id.radioOther);
-		//EditText edit=(EditText)findViewById(R.id.editText);
 		
 		measureResult = starterIntent.getIntExtra("heightInInches", 0);
 		String measureFeet = Integer.toString(MainMenu.getFeet(measureResult));
@@ -58,7 +57,7 @@ public class Results extends Activity {
 		setTitle(current_user);
 		
 		myDate = new Date();
-		SimpleDateFormat dt = new SimpleDateFormat("MM/dd/yyyy");
+		SimpleDateFormat dt = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 		dateString = dt.format(myDate);
 		System.out.println("DateString: " + dateString);
 		
@@ -94,7 +93,7 @@ public class Results extends Activity {
 		EditText enteredText = (EditText)findViewById(R.id.editText);
 		String objectName = "";
 		SharedPreferences.Editor editor = preferences.edit();
-		int numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);  //is this kv pair created if it has to return 0?
+		int numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);
 		int numMeasuresObjects = preferences.getInt(current_user + "numMeasuresObjects", 0);
 				
 		if (userRadio.isChecked()) {
