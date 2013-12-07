@@ -105,9 +105,4 @@ public class Wall extends Activity {
 	    return true;
 	}
 	
-	public boolean settings(MenuItem item){
-		//Intent i = new Intent(this, SettingsActivity.class);
-		//startActivity(i);
-	    return true;
-	}
 }

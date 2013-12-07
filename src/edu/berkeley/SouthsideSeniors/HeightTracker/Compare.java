@@ -69,11 +69,5 @@ public class Compare extends Activity {
 		startActivity(i);
 	    return true;
 	}
-	
-	public boolean settings(MenuItem item){
-		//Intent i = new Intent(this, SettingsActivity.class);
-		//startActivity(i);
-	    return true;
-	}
 
 }

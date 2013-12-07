@@ -37,7 +37,7 @@
                 android:layout_below="@android:id/tabs" >
 
                 <TableLayout
-                    android:id="@+id/User"
+                    android:id="@+id/userTable"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" 
                     android:stretchColumns="0,1,2,3" >
@@ -75,7 +75,7 @@
                 </TableLayout>
 
                 <TableLayout
-                    android:id="@+id/Other"
+                    android:id="@+id/otherTable"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:stretchColumns="0,1,2,3" >

@@ -1,5 +1,8 @@
 package edu.berkeley.SouthsideSeniors.HeightTracker;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -17,14 +20,15 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
-import edu.berkeley.SouthsideSeniors.HeightTracker.R;
 
 public class Results extends Activity {
 	
-	private double measureResult;
+	private int measureResult;
 	private SharedPreferences preferences;
 	private int num_users;
 	private String current_user;
+	private Date myDate;
+	private String dateString;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +41,10 @@ public class Results extends Activity {
 		//RadioButton other=(RadioButton)findViewById(R.id.radioOther);
 		//EditText edit=(EditText)findViewById(R.id.editText);
 		
-		measureResult = starterIntent.getDoubleExtra("heightInMeters", (double) 0.0);
-		results.setText(String.valueOf(measureResult));
+		measureResult = starterIntent.getIntExtra("heightInInches", 0);
+		String measureFeet = Integer.toString(MainMenu.getFeet(measureResult));
+		String measureInches = Integer.toString(MainMenu.getInches(measureResult));
+		results.setText(measureFeet + "'" + measureInches + "\"");
 		
 		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		num_users = Integer.parseInt(preferences.getString("num_users","0"));
@@ -50,6 +56,11 @@ public class Results extends Activity {
 			user.setText(current_user);
 		}
 		setTitle(current_user);
+		
+		myDate = new Date();
+		SimpleDateFormat dt = new SimpleDateFormat("MM/dd/yyyy");
+		dateString = dt.format(myDate);
+		System.out.println("DateString: " + dateString);
 		
 		//Hide keyboard when hitting enter on the EditText field
 		final EditText edit = ((EditText) findViewById(R.id.editText));
@@ -77,13 +88,32 @@ public class Results extends Activity {
 	
 	public void viewWall(View view){
 		Intent i = new Intent(this, Wall.class);
-		int numMeasures = preferences.getInt(current_user + "numMeasures", 0);
 		
+		RadioButton userRadio = (RadioButton)findViewById(R.id.radioUser);
+		RadioButton otherRadio = (RadioButton)findViewById(R.id.radioOther);
+		EditText enteredText = (EditText)findViewById(R.id.editText);
+		String objectName = "";
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putInt(current_user + "Measure" + numMeasures, (int) measureResult);
-		editor.putInt(current_user + "numMeasures", numMeasures+1);
-		editor.putInt(current_user + "current_height", (int) measureResult);
+		int numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);  //is this kv pair created if it has to return 0?
+		int numMeasuresObjects = preferences.getInt(current_user + "numMeasuresObjects", 0);
+				
+		if (userRadio.isChecked()) {
+			editor.putInt(current_user + "Measure" + numMeasuresUser, measureResult);  //this measurement result
+			editor.putString(current_user + "Measure" + numMeasuresUser + "Date", dateString);  //date of this result
+			editor.putString(current_user + "Measure" + numMeasuresUser + "Name", current_user);  //title for this measurement = userName
+			editor.putInt(current_user + "current_height", measureResult);  //update user's most recent height for wall to call up
+			editor.putInt(current_user + "numMeasuresUser", numMeasuresUser+1); //increase measurement counter
+		} else if (otherRadio.isChecked()) {
+			objectName = enteredText.getText().toString();  //make sure this can't be "" I guess
+			editor.putInt(current_user + "Object" + numMeasuresObjects, measureResult);  //this measurement result
+			editor.putString(current_user + "Object" + numMeasuresObjects + "Date", dateString);  //date of this result
+			editor.putString(current_user + "Object" + numMeasuresObjects + "Name", objectName);  //title for this measurement = userName
+			editor.putInt(current_user + "numMeasuresObjects", numMeasuresObjects+1); //increase object measurement counter
+		} else {
+			System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		}
 		editor.commit();
+		
 		startActivity(i);
 	}
 	
@@ -95,12 +125,6 @@ public class Results extends Activity {
 	public boolean users(MenuItem item){
 		Intent i = new Intent(this, ViewUsers.class);
 		startActivity(i);
-	    return true;
-	}
-	
-	public boolean settings(MenuItem item){
-		//Intent i = new Intent(this, SettingsActivity.class);
-		//startActivity(i);
 	    return true;
 	}
 }

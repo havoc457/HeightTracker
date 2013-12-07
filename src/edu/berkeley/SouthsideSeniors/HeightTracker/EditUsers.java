@@ -151,9 +151,4 @@ public class EditUsers extends Activity {
 		return inches % 12;
 	}
 	
-	public boolean settings(MenuItem item){
-		//Intent i = new Intent(this, SettingsActivity.class);
-		//startActivity(i);
-	    return true;
-	}
 }

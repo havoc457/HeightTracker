@@ -34,19 +34,16 @@ public class MainMenu extends Activity {
 		PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
 		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		num_users = Integer.parseInt(preferences.getString("num_users","0"));
+		
 		if (num_users == 0){
 			current_user = "Please Add New User";
 			current_height_text = "No Recent Height";
 			addUser(recent);
-			
-			//Remove after demo
-			SharedPreferences.Editor editor = preferences.edit();
-			editor.putInt("current_height", 66);
-			editor.commit();
 		} else {
 			current_user = preferences.getString("current_user","Please Add New User");
-			current_height = preferences.getInt("current_height", 0);
+			current_height = preferences.getInt(current_user + "current_height", 0);
 		}
+		
 		setTitle(current_user);
 		if (current_height == 0){
 			current_height_text = "No Recent Height";
@@ -96,17 +93,11 @@ public class MainMenu extends Activity {
 	    return true;
 	}
 	
-	public boolean settings(MenuItem item){
-		//Intent i = new Intent(this, SettingsActivity.class);
-		//startActivity(i);
-	    return true;
-	}
-	
-	public int getFeet(int inches){
+	public final static int getFeet(int inches){
 		return inches / 12;
 	}
 	
-	public int getInches(int inches){
+	public final static int getInches(int inches){
 		return inches % 12;
 	}
 }

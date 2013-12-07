@@ -10,6 +10,7 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -22,7 +23,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.SeekBar;
 
 public class Measure extends Activity implements SensorEventListener {
 	private SensorManager mSensorManager;
@@ -31,15 +32,15 @@ public class Measure extends Activity implements SensorEventListener {
 	private boolean started = false;
 	private LinearLayout chartLayout;
 	private View mChart;
-	private TextView magnitudeResult;//, debugXResult, debugYResult, debugZResult;
+	//private TextView magnitudeResult debugXResult, debugYResult, debugZResult;
 	private ArrayList<Datapoint> accelData, velocityData, outPutData;
+	private int swipes = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_measure);
 
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -50,8 +51,36 @@ public class Measure extends Activity implements SensorEventListener {
 //		debugYResult = (TextView) findViewById(R.id.vec1);
 //		debugZResult = (TextView) findViewById(R.id.vec2);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
+		
 		resultInMeters = 0;
+		
+		SeekBar seekBar = (SeekBar)findViewById(R.id.measure_slider); 
+	    seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){ 
+
+		    @Override 
+		    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { 
+		    } 
+	
+		    @Override 
+		    public void onStartTrackingTouch(SeekBar seekBar) { 
+		    } 
+	
+		    @Override 
+		    public void onStopTrackingTouch(SeekBar seekBar) { 
+		    	int progress = seekBar.getProgress();
+		    	System.out.println("Progress: " + progress);
+		    	if (progress > 90){
+		    		if (swipes == 0){
+		    			startMeasure();
+		    			swipes++;
+		    			seekBar.setProgress(0);
+		    		} else if (swipes == 1){
+		    			results();
+		    			swipes--;
+		    		}
+		    	}
+		    } 
+	    }); 
 	}
 
 	@Override
@@ -150,8 +179,7 @@ public class Measure extends Activity implements SensorEventListener {
 			time0 = time1;
 			resultInMeters += (dt * (velocity0 + velocity1) / 2.0);
 			velocity0 = velocity1;
-			Datapoint dva = new Datapoint(time1, resultInMeters * 1000,
-					velocity1 * 1000, 0);
+			Datapoint dva = new Datapoint(time1, resultInMeters * 1000, velocity1 * 1000, 0);
 			outPutData.add(dva);
 		}
 	}
@@ -168,16 +196,15 @@ public class Measure extends Activity implements SensorEventListener {
 		return;
 	}
 
-	public void startMeasure(View view) {
+	public void startMeasure() {
 		accelData = new ArrayList<Datapoint>();
 		started = true;
-		mSensorManager.registerListener(this, mAccel,
-				SensorManager.SENSOR_DELAY_FASTEST);
+		mSensorManager.registerListener(this, mAccel, SensorManager.SENSOR_DELAY_FASTEST);
 		resultInMeters = 0;
 		return;
 	}
 
-	public void results(View view) {
+	public void results() {
 		if (started == false) {
 			return;
 		}
@@ -187,12 +214,12 @@ public class Measure extends Activity implements SensorEventListener {
 		outPutData = new ArrayList<Datapoint>();
 		calculateDistance();
 
-		/*
-		 * Intent i = new Intent(this, Results.class);
-		 * i.putExtra("heightInMeters", resultInMeters); startActivity(i);
-		 */
-		magnitudeResult.setText(String.valueOf(resultInMeters));
-		chartLayout.removeAllViews();
+		
+		Intent i = new Intent(this, Results.class);
+		i.putExtra("heightInInches", metersToInches(resultInMeters)); startActivity(i);
+		 
+		//magnitudeResult.setText(String.valueOf(resultInMeters));
+		//chartLayout.removeAllViews();
 		//openChart();
 	}
 
@@ -268,7 +295,7 @@ public class Measure extends Activity implements SensorEventListener {
 		}
 	}
 
-	public double metersToFeet(double meters) {
-		return meters * 3.28084;
+	public int metersToInches(double meters) {
+		return (int) Math.round(meters * 39.3701);
 	}
 }
