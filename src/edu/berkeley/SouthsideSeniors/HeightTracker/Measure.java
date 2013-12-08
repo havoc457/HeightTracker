@@ -13,6 +13,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -54,8 +56,16 @@ public class Measure extends Activity implements SensorEventListener {
 		
 		resultInMeters = 0;
 		
-		SeekBar seekBar = (SeekBar)findViewById(R.id.measure_slider); 
-	    seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){ 
+		// Setting initial seekbar state
+		LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(R.drawable.bg_shape);
+		Drawable[] bgLayers = new Drawable[2];
+		bgLayers[0] = bgShape.getDrawable(0);
+		bgLayers[1] = getResources().getDrawable(R.drawable.feet_swipe_bm);
+		LayerDrawable newbgLayers = new LayerDrawable(bgLayers);
+		SeekBar sb = (SeekBar)findViewById(R.id.measure_slider);
+		sb.setBackground(newbgLayers);
+		sb.setProgress(3);
+	    sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){ 
 
 		    @Override 
 		    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { 
@@ -68,11 +78,18 @@ public class Measure extends Activity implements SensorEventListener {
 		    @Override 
 		    public void onStopTrackingTouch(SeekBar seekBar) { 
 		    	int progress = seekBar.getProgress();
-		    	if (progress > 85){
+		    	if (progress > 80){
 		    		if (swipes == 0){
 		    			startMeasure();
 		    			swipes++;
-		    			seekBar.setProgress(0);
+		    			LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(R.drawable.bg_shape);
+		    			Drawable[] bgLayers = new Drawable[2];
+		    			bgLayers[0] = bgShape.getDrawable(0);
+		    			bgLayers[1] = getResources().getDrawable(R.drawable.head_swipe_bm);
+		    			LayerDrawable newbgLayers = new LayerDrawable(bgLayers);
+		    			SeekBar sb = (SeekBar)findViewById(R.id.measure_slider);
+		    			sb.setBackground(newbgLayers);
+		    			seekBar.setProgress(3);
 		    		} else if (swipes == 1){
 		    			results();
 		    			swipes--;

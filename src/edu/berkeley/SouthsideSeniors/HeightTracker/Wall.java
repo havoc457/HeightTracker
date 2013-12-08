@@ -185,7 +185,8 @@ public class Wall extends Activity {
 
 			int measureResults = preferences.getInt(current_user + "Measure" + i, 0);
 
-			if (measureResults != eventual && measureResults != current_height && measureResults != dadHeight && measureResults != momHeight){
+			if (measureResults != eventual && measureResults != current_height && measureResults != dadHeight 
+																				&& measureResults != momHeight){
 				RelativeLayout.LayoutParams arrowParams = new RelativeLayout.LayoutParams(width, height);
 				arrowParams.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.ruler0);
 				arrowParams.addRule(RelativeLayout.LEFT_OF, R.id.ruler0);
