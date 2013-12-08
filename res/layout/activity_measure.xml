@@ -15,6 +15,9 @@
         android:progressDrawable="@drawable/slider_bg"
 		android:layout_centerVertical="true"  
         android:thumb="@drawable/slider_thumb"
+        android:paddingLeft="1px"
+        android:paddingRight="1px"
+        android:thumbOffset="-1px"
 	    android:minHeight="500dp"
     	android:maxHeight="500dp"
     	/>

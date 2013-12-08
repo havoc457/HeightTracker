@@ -93,6 +93,7 @@
         android:onClick="delete"
         android:paddingTop="10dp"
         android:scaleType="fitXY"
+        android:paddingBottom="11dp"
         android:src="@drawable/delete" />
 
     <TextView

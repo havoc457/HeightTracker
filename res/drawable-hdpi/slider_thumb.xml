@@ -23,7 +23,7 @@
 	</item>
 	<item>
 		<bitmap
-	    	android:src="@drawable/arrow_right"
+	    	android:src="@drawable/white_arrow"
 	    	android:gravity="center"
 	    	android:height="10dp" 
 			android:width="10dp"/>

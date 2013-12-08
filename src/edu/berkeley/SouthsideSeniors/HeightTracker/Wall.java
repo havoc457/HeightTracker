@@ -208,10 +208,8 @@ public class Wall extends Activity {
 				TextView pastText = new TextView(this);
 				pastText.setTextSize(18);
 				pastText.setText(preferences.getString(current_user + "Measure" + i + "Date", "No Date"));
-				if (measureResults != dadHeight && measureResults != momHeight && measureResults != eventual && measureResults != current_height){
-					rl.addView(pastArrow, arrowParams);
-					rl.addView(pastText, textParams);
-				}
+				rl.addView(pastArrow, arrowParams);
+				rl.addView(pastText, textParams);
 			}
 		}
 	}
