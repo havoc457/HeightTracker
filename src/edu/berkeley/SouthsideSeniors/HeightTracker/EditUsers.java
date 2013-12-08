@@ -32,7 +32,6 @@ public class EditUsers extends Activity {
 		numEdit = Integer.toString(extras.getInt("EditUser"));
 		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		num_users = Integer.parseInt(preferences.getString("num_users","0"));
-		System.out.println("numEdit:" + numEdit);
 		if (numEdit.equals("0")){
 			current_user = "Please Add New User";
 		} else {

@@ -1,58 +1,104 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ScrollView1"
+    android:id="@+id/LogRelativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/yellow"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Log" >
+    android:background="@color/yellow" >
 
-    <TabHost
-        android:id="@+id/tabhost"
+    <ScrollView
+        android:id="@+id/ScrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent"
+        android:layout_above="@+id/selectButton"
+        android:background="@color/yellow"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".Log" >
 
-        <RelativeLayout
-            android:id="@+id/editUserLayout"
+        <TabHost
+            android:id="@+id/tabhost"
             android:layout_width="match_parent"
-            android:layout_height="508dp"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content" >
 
-            <TabWidget
-                android:id="@android:id/tabs"
+            <RelativeLayout
+                android:id="@+id/editUserLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true" >
-            </TabWidget>
+                android:orientation="vertical" >
 
-            <FrameLayout
-                android:id="@android:id/tabcontent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@android:id/tabs" >
-
-                <TableLayout
-                    android:id="@+id/userTable"
+                <TabWidget
+                    android:id="@android:id/tabs"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" 
-                    android:stretchColumns="0,1,2,3" >
-                   
-                </TableLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true" >
+                </TabWidget>
 
-                <TableLayout
-                    android:id="@+id/otherTable"
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:stretchColumns="0,1,2,3" >
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@android:id/tabs" >
 
-                </TableLayout>
-            </FrameLayout>
-        </RelativeLayout>
-    </TabHost>
+                    <TableLayout
+                        android:id="@+id/userTable"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns="0,1,2,3" >
+                    </TableLayout>
 
-</ScrollView>
+                    <TableLayout
+                        android:id="@+id/otherTable"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:stretchColumns="0,1,2,3" >
+                    </TableLayout>
+                </FrameLayout>
+            </RelativeLayout>
+        </TabHost>
+    </ScrollView>
+
+    <ImageButton
+        android:id="@+id/selectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_above="@+id/deleteButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/textView1"
+        android:onClick="selectAll"
+        android:scaleType="fitXY"
+        android:src="@drawable/select" />
+
+    <ImageButton
+        android:id="@+id/unselectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_above="@+id/deleteButton"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignParentRight="true"
+        android:onClick="unselectAll"
+        android:scaleType="fitXY"
+        android:src="@drawable/unselect" />
+
+    <ImageButton
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="90dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:onClick="delete"
+        android:paddingTop="10dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/delete" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

@@ -73,7 +73,7 @@
             android:inputType="text"/>
 
         <ImageButton
-            android:id="@+id/editCancel"
+            android:id="@+id/editSave"
             android:layout_width="160dp"
             android:layout_height="100dp"
             android:layout_alignParentLeft="true"
@@ -81,20 +81,20 @@
             android:layout_toLeftOf="@+id/dadHeightText"
             android:paddingTop="30dp"
             android:scaleType="fitXY"
-            android:src="@drawable/cancel" 
-            android:onClick="viewMeasure"/>
+            android:src="@drawable/saveshort" 
+            android:onClick="viewWall"/>
 
         <ImageButton
-            android:id="@+id/editSave"
+            android:id="@+id/editCancel"
             android:layout_width="150dp"
             android:layout_height="100dp"
             android:layout_alignLeft="@+id/dadHeightText"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/editCancel"
+            android:layout_alignTop="@+id/editSave"
             android:paddingTop="30dp"
             android:scaleType="fitXY"
-            android:src="@drawable/saveshort" 
-            android:onClick="viewWall"/>
+            android:src="@drawable/cancel" 
+            android:onClick="viewMeasure"/>
 
     </RelativeLayout>
 
