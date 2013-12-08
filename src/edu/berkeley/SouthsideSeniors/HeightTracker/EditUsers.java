@@ -4,6 +4,7 @@ package edu.berkeley.SouthsideSeniors.HeightTracker;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -40,6 +41,7 @@ public class EditUsers extends Activity {
 			edit.setText(current_user, TextView.BufferType.EDITABLE);
 		}
 		setTitle(current_user);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		

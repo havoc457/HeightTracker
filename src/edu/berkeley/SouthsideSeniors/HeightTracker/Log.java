@@ -3,6 +3,7 @@ package edu.berkeley.SouthsideSeniors.HeightTracker;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -41,6 +42,7 @@ public class Log extends Activity {
 			current_user = preferences.getString("current_user", "");  //what if same names of users?
 		}
 		setTitle(current_user);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
 		tabHost.setup();
@@ -52,6 +54,9 @@ public class Log extends Activity {
 		specs.setContent(R.id.otherTable);
 		specs.setIndicator("Other");
 		tabHost.addTab(specs);
+		
+		int currentTab = preferences.getInt("currentTab", tabHost.getCurrentTab());
+		tabHost.setCurrentTab(currentTab);
 
 		TableLayout userTable = (TableLayout) findViewById(R.id.userTable);
 		TableLayout otherTable = (TableLayout) findViewById(R.id.otherTable);
@@ -77,7 +82,7 @@ public class Log extends Activity {
 
 			CheckBox checkBox = new CheckBox(this);
 			TextView nameView = new TextView(this);
-			nameView.setText(preferences.getString(current_user + "Measure" + i + "Name", "No Username Detected."));
+			nameView.setText(preferences.getString(current_user + "Measure" + i + "Name", "No Username Detected"));
 			TextView dateView = new TextView(this);
 			dateView.setText(preferences.getString(current_user + "Measure" + i + "Date", "No Recorded Date"));
 			TextView heightView = new TextView(this);
@@ -103,7 +108,7 @@ public class Log extends Activity {
 
 			CheckBox checkBox = new CheckBox(this);
 			TextView nameView = new TextView(this);
-			nameView.setText(preferences.getString(current_user + "Object" + i + "Name", "No Object Name Detected."));
+			nameView.setText(preferences.getString(current_user + "Object" + i + "Name", "No Object Name"));
 			TextView dateView = new TextView(this);
 			dateView.setText(preferences.getString(current_user + "Object" + i + "Date", "No Recorded Date"));
 			TextView heightView = new TextView(this);
@@ -189,14 +194,14 @@ public class Log extends Activity {
 		int numRowsUser = userTable.getChildCount();
 		int numRowsOther = otherTable.getChildCount();
 
-		int numDeleted = 0;
+		int numDeleted;
 		if (tabHost.getCurrentTabTag().equals("User")) {
+			numDeleted = 0;
 			System.out.println("DEBUG: delete, user tab: " + tabHost.getCurrentTabTag());
 			for (int i = numRowsUser-1; i >= 0; i--) {
 				CheckBox thisCB = (CheckBox) ((TableRow) userTable.getChildAt(i)).getChildAt(0);
 				if (thisCB.isChecked()) {
 					numDeleted++;
-					//if just set value to 0
 					for (int j = i; j < numRowsUser; j++){
 						int measureResult = preferences.getInt(current_user + "Measure" + (j+1), 0);  //this measurement result
 						String dateString = preferences.getString(current_user + "Measure" + (j+1) + "Date", "No Recorded Date");
@@ -214,13 +219,17 @@ public class Log extends Activity {
 			numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);
 			editor.putInt(current_user + "numMeasuresUser", numMeasuresUser-numDeleted);
 			editor.putInt(current_user + "current_height", preferences.getInt(current_user + "Measure" + (preferences.getInt(current_user + "numMeasuresUser", 0)-1), 0));
+			editor.putInt("currentTab", tabHost.getCurrentTab());
+			editor.commit();
+			finish();
+			startActivity(getIntent());
 		} else if (tabHost.getCurrentTabTag().equals("Other")) {
 			numDeleted = 0;
-			for (int i = 0; i < numRowsOther; i++) {
+		for (int i = numRowsOther-1; i >= 0; i--) {
 				CheckBox thisCB = (CheckBox) ((TableRow) otherTable.getChildAt(i)).getChildAt(0);
 				if (thisCB.isChecked()) {
 					numDeleted++;
-					for (int j = i; j < numRowsUser; j++){
+					for (int j = i; j < numRowsOther; j++){
 						int measureResult = preferences.getInt(current_user + "Object" + (j+1), 0);  //this measurement result
 						String dateString = preferences.getString(current_user + "Object" + (j+1) + "Date", "No Recorded Date");
 						String objectName = preferences.getString(current_user + "Object" + (j+1) + "Name", "No Name");  //this measurement result
@@ -232,21 +241,19 @@ public class Log extends Activity {
 						editor.commit();
 					}
 				}
-				editor.remove(current_user + "Object" + (numMeasuresUser-numDeleted+1));
-				editor.remove(current_user + "Object" + (numMeasuresUser-numDeleted+1) + "Date");
-				editor.remove(current_user + "Object" + (numMeasuresUser-numDeleted+1) + "Name");
+				editor.remove(current_user + "Object" + (numMeasuresObjects-numDeleted+1));
+				editor.remove(current_user + "Object" + (numMeasuresObjects-numDeleted+1) + "Date");
+				editor.remove(current_user + "Object" + (numMeasuresObjects-numDeleted+1) + "Name");
 			}
+			numMeasuresObjects = preferences.getInt(current_user + "numMeasuresObjects", 0);
+			editor.putInt(current_user + "numMeasuresObjects", numMeasuresObjects-numDeleted);
+			editor.putInt("currentTab", tabHost.getCurrentTab());
+			editor.commit();
+			finish();
+			startActivity(getIntent());
 		} else {
 			System.out.println("DEBUG: Something went wrong with delete");
 		}
-		editor.commit();
-		finish();
-		startActivity(getIntent());
-
-		//find out which checkBoxes are checked or not
-		//delete all values from memory
-		//in memory need to shift the actual memory values upwards manually so for loops don't get whacky
-		//recreate table by refreshing page (this so you don't need to delete rows manually)
 	}
 
 }

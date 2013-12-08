@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.KeyEvent;
@@ -40,6 +41,7 @@ public class Results extends Activity {
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 		TextView results=(TextView)findViewById(R.id.resultsText);
 		RadioButton user=(RadioButton)findViewById(R.id.radioUser);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		measureResult = starterIntent.getIntExtra("heightInInches", 0);
 		String measureFeet = Integer.toString(MainMenu.getFeet(measureResult));

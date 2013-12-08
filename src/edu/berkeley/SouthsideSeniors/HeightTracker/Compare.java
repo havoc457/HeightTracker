@@ -30,6 +30,7 @@ public class Compare extends Activity {
 		
 		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		num_users = Integer.parseInt(preferences.getString("num_users","0"));
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		int current_height;
 		String current_user;

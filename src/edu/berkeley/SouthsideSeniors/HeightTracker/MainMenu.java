@@ -3,6 +3,7 @@ package edu.berkeley.SouthsideSeniors.HeightTracker;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -30,6 +31,7 @@ public class MainMenu extends Activity {
 		setContentView(R.layout.activity_main_menu);
 		TextView recent=(TextView)findViewById(R.id.recentMeasurement);
 		recent.setTypeface(typeface);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		PreferenceManager.setDefaultValues(this, R.xml.pref_general, false);
 		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());

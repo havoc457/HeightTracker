@@ -68,7 +68,7 @@ public class Measure extends Activity implements SensorEventListener {
 		    @Override 
 		    public void onStopTrackingTouch(SeekBar seekBar) { 
 		    	int progress = seekBar.getProgress();
-		    	if (progress > 90){
+		    	if (progress > 85){
 		    		if (swipes == 0){
 		    			startMeasure();
 		    			swipes++;

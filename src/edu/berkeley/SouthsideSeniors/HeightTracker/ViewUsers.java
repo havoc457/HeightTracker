@@ -3,6 +3,7 @@ package edu.berkeley.SouthsideSeniors.HeightTracker;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -22,6 +23,7 @@ public class ViewUsers extends Activity {
 		
 		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		num_users = Integer.parseInt(preferences.getString("num_users","0"));
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 	
 		String current_user;
 		if (num_users == 0){
