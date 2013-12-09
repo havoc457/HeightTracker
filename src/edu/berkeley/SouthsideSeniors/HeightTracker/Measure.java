@@ -39,7 +39,7 @@ public class Measure extends Activity implements SensorEventListener {
 	// private TextView magnitudeResult, debugXResult, debugYResult,
 	// debugZResult;
 	private ArrayList<Datapoint> accelData, velocityData, v_GaussianData,
-			outPutData;
+	outPutData;
 	public static final int UP = 1, DOWN = -1;
 	private int direction = UP, count = 1;
 	private double gravityOffset = 9.71;
@@ -86,13 +86,11 @@ public class Measure extends Activity implements SensorEventListener {
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 			@Override
-			public void onProgressChanged(SeekBar seekBar, int progress,
-					boolean fromUser) {
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 				// progress = Math.round(progress / smoothnessFactor);
 				if (fromUser == true) {
 					// only allow changes by 1 up or down
-					if ((progress > (originalProgress + 35))
-							|| (progress < (originalProgress - 35))) {
+					if ((progress > (originalProgress + 35)) || (progress < (originalProgress - 35))) {
 						seekBar.setProgress(originalProgress);
 					} else {
 						originalProgress = progress;
@@ -111,7 +109,7 @@ public class Measure extends Activity implements SensorEventListener {
 				seekBar.setProgress(Math
 						.round((progress + (smoothnessFactor / 2))
 								/ smoothnessFactor)
-						* smoothnessFactor);
+								* smoothnessFactor);
 				if (progress > 75) {
 					if (swipes < 2) {
 						swipes++;
@@ -425,42 +423,56 @@ public class Measure extends Activity implements SensorEventListener {
 		}
 	}
 
-	/*
-	 * public boolean calibrate(View view) { if (started == true) { return
-	 * false; } if (cali_started == false) { accelData = new
-	 * ArrayList<Datapoint>(); cali_started = true; direction = UP;
-	 * mSensorManager.registerListener(this, mAccel,
-	 * SensorManager.SENSOR_DELAY_FASTEST); } else { cali_started = false;
-	 * mSensorManager.unregisterListener(this); double avgGravityError = 0; int
-	 * num = 0; if (accelData.size() < 100) { //
-	 * debugXResult.setText("time too short"); return false; } for (int i = 40;
-	 * i < accelData.size() - 40; i++) { avgGravityError +=
-	 * accelData.get(i).getZ(); num++; } avgGravityError = avgGravityError /
-	 * num; gravityOffset += avgGravityError; //
-	 * debugXResult.setText(String.valueOf(gravityOffset)); } return true; }
-	 */
 
-	public void calibrate(View view) {
-		if (started == true) {
-			return;
-		}
-		caliDialog = new AlertDialog.Builder(this).create();
-		caliDialog.setMessage("Please place this device on a flat surface to calibrate. The whole process takes 8 seconds to complete.");
-		caliDialog.setTitle(R.string.cali_title);
-		caliDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// User clicked OK button
-			}
-		});
-		
-		caliDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// User cancelled the dialog
-			}
-		});
-		caliDialog.show();
-		return;
+	public boolean calibrate(View view) { 
+		if (started == true) { 
+			return false; 
+		} 
+		if (cali_started == false) { 
+			accelData = new ArrayList<Datapoint>(); 
+			cali_started = true; 
+			direction = UP;
+			mSensorManager.registerListener(this, mAccel, SensorManager.SENSOR_DELAY_FASTEST); 
+		} else { 
+			cali_started = false;
+			mSensorManager.unregisterListener(this); 
+			double avgGravityError = 0; 
+			int num = 0; 
+			if (accelData.size() < 100) { //debugXResult.setText("time too short"); 
+				return false; 
+			} 
+			for (int i = 40; i < accelData.size() - 40; i++) {
+				avgGravityError += accelData.get(i).getZ(); 
+				num++; 
+			} 
+			avgGravityError = avgGravityError / num; 
+			gravityOffset += avgGravityError; //debugXResult.setText(String.valueOf(gravityOffset)); 
+		} 
+		return true; 
 	}
+
+
+	//	public void calibrate(View view) {
+	//		if (started == true) {
+	//			return;
+	//		}
+	//		caliDialog = new AlertDialog.Builder(this).create();
+	//		caliDialog.setMessage("Please place this device on a flat surface to calibrate. The whole process takes 8 seconds to complete.");
+	//		caliDialog.setTitle(R.string.cali_title);
+	//		caliDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+	//			public void onClick(DialogInterface dialog, int id) {
+	//				// User clicked OK button
+	//			}
+	//		});
+	//		
+	//		caliDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+	//			public void onClick(DialogInterface dialog, int id) {
+	//				// User cancelled the dialog
+	//			}
+	//		});
+	//		caliDialog.show();
+	//		return;
+	//	}
 
 	public boolean help(View view) {
 		Intent i = new Intent(this, Tutorial.class);

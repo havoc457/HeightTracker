@@ -148,6 +148,7 @@ public class EditUsers extends Activity {
 						editor.remove(past_user + "Measure" + i + "Date");
 						editor.remove(past_user + "Measure" + i + "Name");
 					}
+					editor.remove(current_user + "numMeasuresUser");
 				}
 				if (numMeasuresObjects > 0){		
 					for (int i = 0; i < numMeasuresUser; i++){
@@ -158,6 +159,7 @@ public class EditUsers extends Activity {
 						editor.remove(past_user + "Object" + i + "Date");
 						editor.remove(past_user + "Object" + i + "Name");
 					}
+					editor.remove(current_user + "numMeasuresObjects");
 				}
 			}
 			editor.commit();

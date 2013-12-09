@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.Menu;
@@ -15,12 +16,15 @@ import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 public class Wall extends Activity {
 
 	private SharedPreferences preferences;
 	private int num_users;
+	private ScrollView scroll;
+	private TextView userText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +33,7 @@ public class Wall extends Activity {
 
 		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		num_users = Integer.parseInt(preferences.getString("num_users","0"));
-		TextView userText = (TextView) findViewById(R.id.userHeightText);
+		userText = (TextView) findViewById(R.id.userHeightText);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		String current_user;
@@ -88,20 +92,20 @@ public class Wall extends Activity {
 		ImageView star = (ImageView) findViewById(R.id.userStar);
 		ImageView dadIconView = (ImageView) findViewById(R.id.dadIcon);
 		ImageView momIconView = (ImageView) findViewById(R.id.momIcon);
-		
+
 		if (current_height == 0){
 			userText.setVisibility(View.GONE);
 			current.setVisibility(View.GONE);
 			star.setVisibility(View.GONE);
 		}
-		
+
 		if (current_user.length() > 9){
 			star.setVisibility(View.GONE);
 		}
-		
-		ScrollView scroll = (ScrollView) findViewById(R.id.wallScroll);
+
+		scroll = (ScrollView) findViewById(R.id.wallScroll);
 		scroll.scrollBy(0, current_height);
-		
+
 		MarginLayoutParams currentMLP = (MarginLayoutParams) userText.getLayoutParams();
 		MarginLayoutParams eventualMLP = (MarginLayoutParams) eventualText.getLayoutParams();
 		MarginLayoutParams dadMLP = (MarginLayoutParams) dadText.getLayoutParams();
@@ -186,11 +190,11 @@ public class Wall extends Activity {
 		if (dadIcon){
 			dadIconView.setVisibility(View.GONE);
 		}
-		
+
 		if (momIcon){
 			momIconView.setVisibility(View.GONE);
 		}
-		
+
 		if (momBool){
 			momText.setVisibility(View.GONE);
 			mom.setVisibility(View.GONE);
@@ -241,7 +245,7 @@ public class Wall extends Activity {
 					pastArrow.setId(i+1);
 
 					RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
-																							RelativeLayout.LayoutParams.WRAP_CONTENT);
+							RelativeLayout.LayoutParams.WRAP_CONTENT);
 					textParams.addRule(RelativeLayout.ALIGN_BOTTOM, i+1);
 					textParams.addRule(RelativeLayout.LEFT_OF, i+1);
 					textParams.setMargins(0, 0, right, bottom);
@@ -254,8 +258,28 @@ public class Wall extends Activity {
 				}
 			}
 		}
+		focusOnView();
+		scroll.smoothScrollTo(0, Math.round(userText.getY()));
+		System.out.println("focusing1: " + userText.getY());
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		focusOnView();
+		System.out.println("focusing2: " + userText.getBottom());
+		scroll.smoothScrollTo(0, userText.getBottom());
 	}
 
+	private final void focusOnView(){
+		new Handler().post(new Runnable() {
+			@Override
+			public void run() {
+				scroll.scrollTo(0, userText.getBottom());
+			}
+		});
+
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
