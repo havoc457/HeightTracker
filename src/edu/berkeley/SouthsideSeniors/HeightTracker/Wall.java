@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class Wall extends Activity {
@@ -90,6 +91,10 @@ public class Wall extends Activity {
 			ImageView star = (ImageView) findViewById(R.id.userStar);
 			star.setVisibility(View.GONE);
 		}
+		
+		ScrollView scroll = (ScrollView) findViewById(R.id.wallScroll);
+		scroll.scrollBy(0, current_height);
+		
 
 		MarginLayoutParams currentMLP = (MarginLayoutParams) userText.getLayoutParams();
 		MarginLayoutParams eventualMLP = (MarginLayoutParams) eventualText.getLayoutParams();
@@ -191,7 +196,7 @@ public class Wall extends Activity {
 			boolean alreadyPlacedDate = false;
 			if (measureResults[i] != eventual && measureResults[i] != current_height && measureResults[i] != dadHeight 
 					&& measureResults[i] != momHeight){
-				for (int j = i; j < numMeasuresUser; j++){
+				for (int j = i+1; j < numMeasuresUser; j++){
 					if (measureResults[i] == measureResults[j]){
 						alreadyPlacedDate = true;
 					}

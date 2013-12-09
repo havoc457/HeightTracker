@@ -55,9 +55,6 @@ public class Log extends Activity {
 		specs.setIndicator("Other");
 		tabHost.addTab(specs);
 
-		int currentTab = preferences.getInt("currentTab", tabHost.getCurrentTab());
-		tabHost.setCurrentTab(currentTab);
-
 		TableLayout userTable = (TableLayout) findViewById(R.id.userTable);
 		TableLayout otherTable = (TableLayout) findViewById(R.id.otherTable);
 
@@ -125,7 +122,6 @@ public class Log extends Activity {
 				newRow.setBackgroundColor(Color.parseColor("#bdbdbd"));
 			}
 			otherTable.addView(newRow);
-
 		}
 	}
 	
@@ -133,7 +129,11 @@ public class Log extends Activity {
 	protected void onResume() {
 		super.onResume();
 		TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
-		tabHost.setCurrentTab(0);
+		int currentTab = preferences.getInt("currentTab", tabHost.getCurrentTab());
+		tabHost.setCurrentTab(currentTab);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putInt("currentTab", 0);
+		editor.commit();
 	}
 
 	@Override

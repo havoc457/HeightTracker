@@ -85,8 +85,8 @@ public class Measure extends Activity implements SensorEventListener {
 				//progress = Math.round(progress / smoothnessFactor);
 	            if(fromUser == true){
 	                  // only allow changes by 1 up or down
-	                  if ((progress > (originalProgress+20))
-	                       || (progress < (originalProgress-20))) {
+	                  if ((progress > (originalProgress+35))
+	                       || (progress < (originalProgress-35))) {
 	                     seekBar.setProgress( originalProgress);
 	                  } else {
 	                      originalProgress = progress;
@@ -103,21 +103,26 @@ public class Measure extends Activity implements SensorEventListener {
 			public void onStopTrackingTouch(SeekBar seekBar) { 
 				int progress = seekBar.getProgress();
 				seekBar.setProgress(Math.round((progress + (smoothnessFactor / 2)) / smoothnessFactor) * smoothnessFactor);
-				if (progress > 80){
-					if (swipes == 0){
-						startMeasure();
+				if (progress > 75){
+					if (swipes < 2){
 						swipes++;
 						LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(R.drawable.bg_shape);
 						Drawable[] bgLayers = new Drawable[2];
 						bgLayers[0] = bgShape.getDrawable(0);
-						bgLayers[1] = getResources().getDrawable(R.drawable.head_swipe_bm);
+						if (swipes == 1){
+							bgLayers[1] = getResources().getDrawable(R.drawable.head_swipe_bm);
+						} else if (swipes == 2){
+							bgLayers[1] = getResources().getDrawable(R.drawable.feet_swipe_bm);
+						}
+						
 						LayerDrawable newbgLayers = new LayerDrawable(bgLayers);
 						SeekBar sb = (SeekBar)findViewById(R.id.measure_slider);
 						sb.setBackground(newbgLayers);
 						seekBar.setProgress(0);
-					} else if (swipes == 1){
+						startMeasure();
+					} else {
+						swipes = 0;
 						results();
-						swipes--;
 					}
 				}
 			} 
