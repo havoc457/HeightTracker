@@ -54,7 +54,7 @@ public class Log extends Activity {
 		specs.setContent(R.id.otherTable);
 		specs.setIndicator("Other");
 		tabHost.addTab(specs);
-		
+
 		int currentTab = preferences.getInt("currentTab", tabHost.getCurrentTab());
 		tabHost.setCurrentTab(currentTab);
 
@@ -127,6 +127,13 @@ public class Log extends Activity {
 			otherTable.addView(newRow);
 
 		}
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
+		tabHost.setCurrentTab(0);
 	}
 
 	@Override
@@ -216,16 +223,18 @@ public class Log extends Activity {
 					editor.remove(current_user + "Measure" + (numMeasuresUser-numDeleted+1) + "Name");
 				}
 			}
-			numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);
-			editor.putInt(current_user + "numMeasuresUser", numMeasuresUser-numDeleted);
-			editor.putInt(current_user + "current_height", preferences.getInt(current_user + "Measure" + (preferences.getInt(current_user + "numMeasuresUser", 0)-1), 0));
-			editor.putInt("currentTab", tabHost.getCurrentTab());
-			editor.commit();
-			finish();
-			startActivity(getIntent());
+			if (numDeleted > 0){
+				numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);
+				editor.putInt(current_user + "numMeasuresUser", numMeasuresUser-numDeleted);
+				editor.putInt(current_user + "current_height", preferences.getInt(current_user + "Measure" + (numMeasuresUser-numDeleted-1), 0));
+				editor.putInt("currentTab", tabHost.getCurrentTab());
+				editor.commit();
+				finish();
+				startActivity(getIntent());
+			}
 		} else if (tabHost.getCurrentTabTag().equals("Other")) {
 			numDeleted = 0;
-		for (int i = numRowsOther-1; i >= 0; i--) {
+			for (int i = numRowsOther-1; i >= 0; i--) {
 				CheckBox thisCB = (CheckBox) ((TableRow) otherTable.getChildAt(i)).getChildAt(0);
 				if (thisCB.isChecked()) {
 					numDeleted++;
@@ -233,11 +242,11 @@ public class Log extends Activity {
 						int measureResult = preferences.getInt(current_user + "Object" + (j+1), 0);  //this measurement result
 						String dateString = preferences.getString(current_user + "Object" + (j+1) + "Date", "No Recorded Date");
 						String objectName = preferences.getString(current_user + "Object" + (j+1) + "Name", "No Name");  //this measurement result
-						
+
 						editor.putInt(current_user + "Object" + j, measureResult);  //this measurement result
 						editor.putString(current_user + "Object" + j + "Date", dateString);  //date of this result
 						editor.putString(current_user + "Object" + j + "Name", objectName);
-	
+
 						editor.commit();
 					}
 				}
@@ -245,12 +254,14 @@ public class Log extends Activity {
 				editor.remove(current_user + "Object" + (numMeasuresObjects-numDeleted+1) + "Date");
 				editor.remove(current_user + "Object" + (numMeasuresObjects-numDeleted+1) + "Name");
 			}
-			numMeasuresObjects = preferences.getInt(current_user + "numMeasuresObjects", 0);
-			editor.putInt(current_user + "numMeasuresObjects", numMeasuresObjects-numDeleted);
-			editor.putInt("currentTab", tabHost.getCurrentTab());
-			editor.commit();
-			finish();
-			startActivity(getIntent());
+			if (numDeleted > 0){
+				numMeasuresObjects = preferences.getInt(current_user + "numMeasuresObjects", 0);
+				editor.putInt(current_user + "numMeasuresObjects", numMeasuresObjects-numDeleted);
+				editor.putInt("currentTab", tabHost.getCurrentTab());
+				editor.commit();
+				finish();
+				startActivity(getIntent());
+			}
 		} else {
 			System.out.println("DEBUG: Something went wrong with delete");
 		}

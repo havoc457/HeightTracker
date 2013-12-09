@@ -8,18 +8,26 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/background_shape"
     tools:context=".Measure" >   
+
     <SeekBar
         android:id="@+id/measure_slider"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:progressDrawable="@drawable/slider_bg"
-		android:layout_centerVertical="true"  
-        android:thumb="@drawable/slider_thumb"
+        android:layout_centerVertical="true"
+        android:maxHeight="500dp"
+        android:minHeight="500dp"
         android:paddingLeft="1px"
         android:paddingRight="1px"
-        android:thumbOffset="-1px"
-	    android:minHeight="500dp"
-    	android:maxHeight="500dp"
-    	/>
+        android:progressDrawable="@drawable/slider_bg"
+        android:thumb="@drawable/slider_thumb"
+        android:thumbOffset="-1px" />
+
+    <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/measure_slider"
+        android:layout_toRightOf="@+id/measure_slider"
+        android:src="@drawable/precision_icon" />
 
 </RelativeLayout>

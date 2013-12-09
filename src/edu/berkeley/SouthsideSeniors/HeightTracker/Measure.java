@@ -20,7 +20,9 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.SeekBar;
@@ -34,11 +36,13 @@ public class Measure extends Activity implements SensorEventListener {
 	//private View mChart;
 	//private TextView magnitudeResult, debugXResult, debugYResult, debugZResult;
 	private ArrayList<Datapoint> accelData, velocityData, v_GaussianData,
-			outPutData;
+	outPutData;
 	public static final int UP = 1, DOWN = -1;
 	private int direction = UP, count = 1;
 	private double gravityOffset = 9.71;
 	private int swipes = 0;
+	private int originalProgress;
+	private int smoothnessFactor = 10;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +67,8 @@ public class Measure extends Activity implements SensorEventListener {
 		started = false;
 		cali_started = false;
 
-				resultInMeters = 0;
-		
+		resultInMeters = 0;
+
 		// Setting initial seekbar state
 		LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(R.drawable.bg_shape);
 		Drawable[] bgLayers = new Drawable[2];
@@ -74,38 +78,50 @@ public class Measure extends Activity implements SensorEventListener {
 		SeekBar sb = (SeekBar)findViewById(R.id.measure_slider);
 		sb.setBackground(newbgLayers);
 		sb.setProgress(0);
-	    sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){ 
+		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){ 
+			
+			@Override 
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+				//progress = Math.round(progress / smoothnessFactor);
+	            if(fromUser == true){
+	                  // only allow changes by 1 up or down
+	                  if ((progress > (originalProgress+20))
+	                       || (progress < (originalProgress-20))) {
+	                     seekBar.setProgress( originalProgress);
+	                  } else {
+	                      originalProgress = progress;
+	                  }
+	               }   
+			} 
 
-		    @Override 
-		    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) { 
-		    } 
-	
-		    @Override 
-		    public void onStartTrackingTouch(SeekBar seekBar) { 
-		    } 
-	
-		    @Override 
-		    public void onStopTrackingTouch(SeekBar seekBar) { 
-		    	int progress = seekBar.getProgress();
-		    	if (progress > 80){
-		    		if (swipes == 0){
-		    			startMeasure();
-		    			swipes++;
-		    			LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(R.drawable.bg_shape);
-		    			Drawable[] bgLayers = new Drawable[2];
-		    			bgLayers[0] = bgShape.getDrawable(0);
-		    			bgLayers[1] = getResources().getDrawable(R.drawable.head_swipe_bm);
-		    			LayerDrawable newbgLayers = new LayerDrawable(bgLayers);
-		    			SeekBar sb = (SeekBar)findViewById(R.id.measure_slider);
-		    			sb.setBackground(newbgLayers);
-	    				seekBar.setProgress(0);
-		    		} else if (swipes == 1){
-		    			results();
-		    			swipes--;
-		    		}
-		    	}
-		    } 
-	    }); 
+			@Override 
+			public void onStartTrackingTouch(SeekBar seekBar) { 
+				originalProgress = seekBar.getProgress();
+			} 
+
+			@Override 
+			public void onStopTrackingTouch(SeekBar seekBar) { 
+				int progress = seekBar.getProgress();
+				seekBar.setProgress(Math.round((progress + (smoothnessFactor / 2)) / smoothnessFactor) * smoothnessFactor);
+				if (progress > 80){
+					if (swipes == 0){
+						startMeasure();
+						swipes++;
+						LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(R.drawable.bg_shape);
+						Drawable[] bgLayers = new Drawable[2];
+						bgLayers[0] = bgShape.getDrawable(0);
+						bgLayers[1] = getResources().getDrawable(R.drawable.head_swipe_bm);
+						LayerDrawable newbgLayers = new LayerDrawable(bgLayers);
+						SeekBar sb = (SeekBar)findViewById(R.id.measure_slider);
+						sb.setBackground(newbgLayers);
+						seekBar.setProgress(0);
+					} else if (swipes == 1){
+						results();
+						swipes--;
+					}
+				}
+			} 
+		}); 
 	}
 
 	@Override

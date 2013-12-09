@@ -89,6 +89,8 @@ public class EditUsers extends Activity {
 	    
 	    if (current_user.equals("")){
 	    	Toast.makeText(getApplicationContext(), "Please enter your name.", Toast.LENGTH_SHORT).show();
+	    } else if (current_user.length() > 13){
+	    	Toast.makeText(getApplicationContext(), "Please enter a shorter name.", Toast.LENGTH_SHORT).show();
 	    } else {
 		
 			//Go back to the home view.

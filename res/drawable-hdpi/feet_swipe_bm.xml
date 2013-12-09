@@ -3,6 +3,6 @@
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"
     	android:id="@+id/slider_pic"
-	    android:src="@drawable/head_swipe"
+	    android:src="@drawable/swipe_feet"
 	    android:gravity="center" >
 </bitmap>

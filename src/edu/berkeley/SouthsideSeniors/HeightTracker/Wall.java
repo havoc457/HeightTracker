@@ -46,12 +46,12 @@ public class Wall extends Activity {
 		int dadHeight = preferences.getInt(current_user + "dadHeight", 0);
 		int momHeight = preferences.getInt(current_user + "momHeight", 0);
 		int eventual = preferences.getInt(current_user + "eventual", 0);
-		
+
 		ImageView current = (ImageView) findViewById(R.id.current);
 		ImageView dad = (ImageView) findViewById(R.id.dadHeightArrow);
 		ImageView mom = (ImageView) findViewById(R.id.momHeightArrow);
 		ImageView eventualView = (ImageView) findViewById(R.id.futureArrow);
-		
+
 		MarginLayoutParams mlp = (MarginLayoutParams) current.getLayoutParams();
 		mlp.setMargins(0, 0, 0, 175*(current_height-1) - 31);//all in pixels
 		current.setLayoutParams(mlp);
@@ -83,14 +83,14 @@ public class Wall extends Activity {
 		} else if (dadHeight == 0){
 			dadBool = true;
 		}
-		
+
 		if (current_height == 0){
 			userText.setVisibility(View.GONE);
 			current.setVisibility(View.GONE);
 			ImageView star = (ImageView) findViewById(R.id.userStar);
 			star.setVisibility(View.GONE);
 		}
-		
+
 		MarginLayoutParams currentMLP = (MarginLayoutParams) userText.getLayoutParams();
 		MarginLayoutParams eventualMLP = (MarginLayoutParams) eventualText.getLayoutParams();
 		MarginLayoutParams dadMLP = (MarginLayoutParams) dadText.getLayoutParams();
@@ -181,35 +181,46 @@ public class Wall extends Activity {
 		int right = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, r.getDisplayMetrics()));
 		int bottom = Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics()));
 
-		for (int i = 0; i < numMeasuresUser; i++) {
+		int measureResults[] = new int[numMeasuresUser]; 
 
-			int measureResults = preferences.getInt(current_user + "Measure" + i, 0);
+		for (int i = 0; i < numMeasuresUser; i++){
+			measureResults[i] = preferences.getInt(current_user + "Measure" + i, 0);
+		}
 
-			if (measureResults != eventual && measureResults != current_height && measureResults != dadHeight 
-																				&& measureResults != momHeight){
-				RelativeLayout.LayoutParams arrowParams = new RelativeLayout.LayoutParams(width, height);
-				arrowParams.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.ruler0);
-				arrowParams.addRule(RelativeLayout.LEFT_OF, R.id.ruler0);
+		for (int i = numMeasuresUser-1; i >= 0; i--) {
+			boolean alreadyPlacedDate = false;
+			if (measureResults[i] != eventual && measureResults[i] != current_height && measureResults[i] != dadHeight 
+					&& measureResults[i] != momHeight){
+				for (int j = i; j < numMeasuresUser; j++){
+					if (measureResults[i] == measureResults[j]){
+						alreadyPlacedDate = true;
+					}
+				}
+				if (!alreadyPlacedDate){
+					RelativeLayout.LayoutParams arrowParams = new RelativeLayout.LayoutParams(width, height);
+					arrowParams.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.ruler0);
+					arrowParams.addRule(RelativeLayout.LEFT_OF, R.id.ruler0);
 
-				ImageView pastArrow = new ImageView(this);
-				pastArrow.setImageResource(R.drawable.green_arrow_paint);
+					ImageView pastArrow = new ImageView(this);
+					pastArrow.setImageResource(R.drawable.green_arrow_paint);
 
-				arrowParams.setMargins(0, 0, 0, 175*(measureResults-1) - 31);//all in pixels
-				pastArrow.setLayoutParams(arrowParams);
-				pastArrow.setScaleType(ImageView.ScaleType.FIT_XY);
-				pastArrow.setId(i+1);
+					arrowParams.setMargins(0, 0, 0, 175*(measureResults[i]-1) - 31);//all in pixels
+					pastArrow.setLayoutParams(arrowParams);
+					pastArrow.setScaleType(ImageView.ScaleType.FIT_XY);
+					pastArrow.setId(i+1);
 
-				RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
-						RelativeLayout.LayoutParams.WRAP_CONTENT);
-				textParams.addRule(RelativeLayout.ALIGN_BOTTOM, i+1);
-				textParams.addRule(RelativeLayout.LEFT_OF, i+1);
-				textParams.setMargins(0, 0, right, bottom);
+					RelativeLayout.LayoutParams textParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, 
+																							RelativeLayout.LayoutParams.WRAP_CONTENT);
+					textParams.addRule(RelativeLayout.ALIGN_BOTTOM, i+1);
+					textParams.addRule(RelativeLayout.LEFT_OF, i+1);
+					textParams.setMargins(0, 0, right, bottom);
 
-				TextView pastText = new TextView(this);
-				pastText.setTextSize(18);
-				pastText.setText(preferences.getString(current_user + "Measure" + i + "Date", "No Date"));
-				rl.addView(pastArrow, arrowParams);
-				rl.addView(pastText, textParams);
+					TextView pastText = new TextView(this);
+					pastText.setTextSize(18);
+					pastText.setText(preferences.getString(current_user + "Measure" + i + "Date", "No Date"));
+					rl.addView(pastArrow, arrowParams);
+					rl.addView(pastText, textParams);
+				}
 			}
 		}
 	}

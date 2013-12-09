@@ -85,7 +85,7 @@ public class Results extends Activity {
 	}
 
 	public void viewWall(View view){
-		Intent i = new Intent(this, Wall.class);
+		
 
 		RadioButton userRadio = (RadioButton)findViewById(R.id.radioUser);
 		RadioButton otherRadio = (RadioButton)findViewById(R.id.radioOther);
@@ -98,17 +98,23 @@ public class Results extends Activity {
 		if (current_user.equals("") || num_users == 0){
 			Toast.makeText(this, "Please create a user before saving height", Toast.LENGTH_SHORT).show();
 		} else if (userRadio.isChecked()) {
-			editor.putInt(current_user + "Measure" + numMeasuresUser, measureResult);  //this measurement result
-			editor.putString(current_user + "Measure" + numMeasuresUser + "Date", dateString);  //date of this result
-			editor.putString(current_user + "Measure" + numMeasuresUser + "Name", current_user);  //title for this measurement = userName
-			editor.putInt(current_user + "current_height", measureResult);  //update user's most recent height for wall to call up
-			editor.putInt(current_user + "numMeasuresUser", numMeasuresUser+1); //increase measurement counter
-			editor.commit();
-			startActivity(i);
+			if (measureResult <= 0){
+				Toast.makeText(this, "Please measure again", Toast.LENGTH_SHORT).show();
+			} else {
+				Intent i = new Intent(this, Wall.class);
+				editor.putInt(current_user + "Measure" + numMeasuresUser, measureResult);  //this measurement result
+				editor.putString(current_user + "Measure" + numMeasuresUser + "Date", dateString);  //date of this result
+				editor.putString(current_user + "Measure" + numMeasuresUser + "Name", current_user);  //title for this measurement = userName
+				editor.putInt(current_user + "current_height", measureResult);  //update user's most recent height for wall to call up
+				editor.putInt(current_user + "numMeasuresUser", numMeasuresUser+1); //increase measurement counter
+				editor.commit();
+				startActivity(i);
+			}
 		} else if (otherRadio.isChecked()) {
 			if (enteredText.getText().toString().equals("")){
 				Toast.makeText(this, "Please enter this object's name.", Toast.LENGTH_SHORT).show();
 			} else {
+				Intent i = new Intent(this, MainMenu.class);
 				objectName = enteredText.getText().toString();  //make sure this can't be "" I guess
 				editor.putInt(current_user + "Object" + numMeasuresObjects, measureResult);  //this measurement result
 				editor.putString(current_user + "Object" + numMeasuresObjects + "Date", dateString);  //date of this result
@@ -117,8 +123,6 @@ public class Results extends Activity {
 				editor.commit();
 				startActivity(i);
 			}
-		} else if (measureResult == 0){
-			Toast.makeText(this, "Please measure again'", Toast.LENGTH_SHORT).show();
 		} else {
 			Toast.makeText(this, "Please select 'User' or 'Other'", Toast.LENGTH_SHORT).show();
 		}
