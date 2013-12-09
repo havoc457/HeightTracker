@@ -53,7 +53,6 @@
     </string-array>
 
     <string name="other">Other</string>
-    <string name="title_activity_tutorial">Tutorial</string>
     <string name="tutorial1">Step 1: When you start measuring, place the device at your feet, right in front of you. Then swipe the slider 
         button across the screen to the left, immediately raise the phone straight up, and place the phone on top of your head.</string>
     <string name="tutorial2">Step 2: Swipe the slider button across the screen a second time while it is on top of your head, then lower the
@@ -61,8 +60,8 @@
     <string name="tutorial3">Step 3: Swipe the slider button across the screen a third time while it is on the ground, and you have finished 
         measuring!</string>
     <string name="tutorial4">Extra Tips: \n1. You can calibrate the device before making any measurements to increase accuracy. You only 
-        need to do this once.\n 2. Keep the device steady and horizontal while moving it up and down.\n3. Moving the phone a large distance 
-        sideways (such as while placing the phone on your head) will lower the height below what it should be.\4. Smooth and 
-        constant acceleration will incrase the accuracy. This means moving quickly but without sudden jolts.</string>
+        need to do this once.\n2. Keep the device steady and horizontal while moving it up and down.\n3. Moving the phone a large distance 
+        sideways (such as while placing the phone on your head) will lower the height below what it should be.\n4. Smooth and 
+        constant acceleration will incrase the accuracy. \nThis means moving quickly but without sudden jolts.</string>
 
 </resources>

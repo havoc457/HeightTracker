@@ -55,7 +55,7 @@
         </activity>
         <activity
             android:name="edu.berkeley.SouthsideSeniors.HeightTracker.Tutorial"
-            android:label="@string/title_activity_tutorial" >
+             >
         </activity>
     </application>
 

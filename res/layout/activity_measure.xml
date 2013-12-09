@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:maxHeight="500dp"
         android:minHeight="500dp"
-        android:layout_marginRight="96dp"
+        android:layout_marginRight="100dp"
         android:paddingLeft="1px"
         android:progressDrawable="@drawable/slider_bg"
         android:thumb="@drawable/slider_thumb"
@@ -24,7 +24,7 @@
 
     <ImageButton
         android:id="@+id/calibrateButton"
-        android:layout_width="65dp"
+        android:layout_width="72dp"
         android:layout_height="65dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -35,7 +35,7 @@
     
     <ImageButton
         android:id="@+id/helpButton"
-        android:layout_width="65dp"
+        android:layout_width="72dp"
         android:layout_height="65dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
