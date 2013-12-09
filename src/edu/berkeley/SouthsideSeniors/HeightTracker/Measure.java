@@ -441,6 +441,12 @@ public class Measure extends Activity implements SensorEventListener {
 		}
 		return true;
 	}
+	
+	public boolean help(View view){
+		Intent i = new Intent(this, Tutorial.class);
+		startActivity(i);
+		return true;
+	}
 
 	public int metersToInches(double meters) {
 		return (int) Math.round(meters * 39.3701);

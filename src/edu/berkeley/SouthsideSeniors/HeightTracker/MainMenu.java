@@ -54,16 +54,6 @@ public class MainMenu extends Activity {
 		}
 		recent.setText(current_height_text);
 		
-		SharedPreferences.Editor editor = preferences.edit();
-		editor.putInt(current_user + "Measure0", 55);
-		editor.putString(current_user + "Measure0Date", "11/12/2013");
-		editor.putInt(current_user + "Measure1", 55);
-		editor.putString(current_user + "Measure1Date", "12/02/2013");
-		editor.putInt(current_user + "Measure2", 55);
-		editor.putString(current_user + "Measure2Date", "12/31/2013");
-		int numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);
-		editor.putInt(current_user + "numMeasuresUser", 3);
-		editor.commit();
 	}
 
 	@Override

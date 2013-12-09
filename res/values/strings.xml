@@ -14,42 +14,55 @@
     <string name="boy">Boy</string>
     <string name="girl">Girl</string>
     <string name="name">Name:</string>
-	<string-array name="landmarks">
-	    <item>Big Ben</item>	    
-	    <item>Cal Campanile</item>
-	    <item>Eiffel Tower</item>
-	    <item>Empire State Building</item>
-	    <item>Golden Gate Bridge</item>
-	    <item>Mount Everest</item>
-	    <item>Niagara Falls</item>
-	    <item>Statue of Liberty</item>
-	    <item>Tower of Pisa</item>
-	    <item>Washington Monument</item>
-	</string-array>
-	<string-array name="landmarksHeight">
-	    <item>316</item>	    
-	    <item>307</item>
-	    <item>1063</item>
-	    <item>1454</item>
-	    <item>220</item>
-	    <item>29029</item>
-	    <item>167</item>
-	    <item>305</item>
-	    <item>183</item>
-	    <item>555</item>
-	</string-array>
-	<string-array name="landmarksLocation">
-	    <item>London, England</item>	    
-	    <item>Berkeley, California</item>
-	    <item>Paris, France</item>
-	    <item>New York City, New York</item>
-	    <item>San Francisco, California</item>
-	    <item>Himalayan Mountains, Nepal/Tibet</item>
-	    <item>Niagara Falls, New York</item>
-	    <item>Liberty Island, New York</item>
-	    <item>Piazza del Duomo, Italy</item>
-	    <item>Washington, DC</item>
-	</string-array>
-	<string name="other">Other</string>
-    
+
+    <string-array name="landmarks">
+        <item>Big Ben</item>
+        <item>Cal Campanile</item>
+        <item>Eiffel Tower</item>
+        <item>Empire State Building</item>
+        <item>Golden Gate Bridge</item>
+        <item>Mount Everest</item>
+        <item>Niagara Falls</item>
+        <item>Statue of Liberty</item>
+        <item>Tower of Pisa</item>
+        <item>Washington Monument</item>
+    </string-array>
+    <string-array name="landmarksHeight">
+        <item>316</item>
+        <item>307</item>
+        <item>1063</item>
+        <item>1454</item>
+        <item>220</item>
+        <item>29029</item>
+        <item>167</item>
+        <item>305</item>
+        <item>183</item>
+        <item>555</item>
+    </string-array>
+    <string-array name="landmarksLocation">
+        <item>London, England</item>
+        <item>Berkeley, California</item>
+        <item>Paris, France</item>
+        <item>New York City, New York</item>
+        <item>San Francisco, California</item>
+        <item>Himalayan Mountains, Nepal/Tibet</item>
+        <item>Niagara Falls, New York</item>
+        <item>Liberty Island, New York</item>
+        <item>Piazza del Duomo, Italy</item>
+        <item>Washington, DC</item>
+    </string-array>
+
+    <string name="other">Other</string>
+    <string name="title_activity_tutorial">Tutorial</string>
+    <string name="tutorial1">Step 1: When you start measuring, place the device at your feet, right in front of you. Then swipe the slider 
+        button across the screen to the left, immediately raise the phone straight up, and place the phone on top of your head.</string>
+    <string name="tutorial2">Step 2: Swipe the slider button across the screen a second time while it is on top of your head, then lower the
+        phone down back to the ground.</string>
+    <string name="tutorial3">Step 3: Swipe the slider button across the screen a third time while it is on the ground, and you have finished 
+        measuring!</string>
+    <string name="tutorial4">Extra Tips: \n1. You can calibrate the device before making any measurements to increase accuracy. You only 
+        need to do this once.\n 2. Keep the device steady and horizontal while moving it up and down.\n3. Moving the phone a large distance 
+        sideways (such as while placing the phone on your head) will lower the height below what it should be.\4. Smooth and 
+        constant acceleration will incrase the accuracy. This means moving quickly but without sudden jolts.</string>
+
 </resources>

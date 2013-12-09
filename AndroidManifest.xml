@@ -9,11 +9,11 @@
         android:targetSdkVersion="19" />
 
     <application
+        android:name="edu.berkeley.SouthsideSeniors.HeightTracker.App"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" 
-        android:name="edu.berkeley.SouthsideSeniors.HeightTracker.App" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name="edu.berkeley.SouthsideSeniors.HeightTracker.MainMenu"
             android:label="@string/app_name" >
@@ -43,9 +43,7 @@
             android:name="edu.berkeley.SouthsideSeniors.HeightTracker.SettingsActivity"
             android:noHistory="true" >
         </activity>
-        <activity
-            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.ViewUsers"
-            >
+        <activity android:name="edu.berkeley.SouthsideSeniors.HeightTracker.ViewUsers" >
         </activity>
         <activity
             android:name="edu.berkeley.SouthsideSeniors.HeightTracker.EditUsers"
@@ -54,6 +52,10 @@
         <activity
             android:name="edu.berkeley.SouthsideSeniors.HeightTracker.Results"
             android:noHistory="true" >
+        </activity>
+        <activity
+            android:name="edu.berkeley.SouthsideSeniors.HeightTracker.Tutorial"
+            android:label="@string/title_activity_tutorial" >
         </activity>
     </application>
 
