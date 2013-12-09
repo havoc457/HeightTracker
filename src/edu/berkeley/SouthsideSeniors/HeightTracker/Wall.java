@@ -73,7 +73,7 @@ public class Wall extends Activity {
 		TextView momText = (TextView) findViewById(R.id.momHeightText);
 		TextView eventualText = (TextView) findViewById(R.id.futureText);
 
-		boolean momBool = false, dadBool = false, eventualBool = false;
+		boolean momBool = false, dadBool = false, eventualBool = false, dadIcon = false, momIcon = false;
 
 		if ((dadHeight == 0 && momHeight == 0) || num_users == 0){
 			momBool = true;
@@ -85,17 +85,23 @@ public class Wall extends Activity {
 			dadBool = true;
 		}
 
+		ImageView star = (ImageView) findViewById(R.id.userStar);
+		ImageView dadIconView = (ImageView) findViewById(R.id.dadIcon);
+		ImageView momIconView = (ImageView) findViewById(R.id.momIcon);
+		
 		if (current_height == 0){
 			userText.setVisibility(View.GONE);
 			current.setVisibility(View.GONE);
-			ImageView star = (ImageView) findViewById(R.id.userStar);
+			star.setVisibility(View.GONE);
+		}
+		
+		if (current_user.length() > 9){
 			star.setVisibility(View.GONE);
 		}
 		
 		ScrollView scroll = (ScrollView) findViewById(R.id.wallScroll);
 		scroll.scrollBy(0, current_height);
 		
-
 		MarginLayoutParams currentMLP = (MarginLayoutParams) userText.getLayoutParams();
 		MarginLayoutParams eventualMLP = (MarginLayoutParams) eventualText.getLayoutParams();
 		MarginLayoutParams dadMLP = (MarginLayoutParams) dadText.getLayoutParams();
@@ -103,6 +109,8 @@ public class Wall extends Activity {
 		if (dadHeight == momHeight && current_height == momHeight){
 			momBool = true;
 			dadBool = true;
+			dadIcon = true;
+			momIcon = true;
 			userText.setText(current_user + "\nDad, Mom");
 			userText.setTextSize(18);
 			currentMLP.setMargins(0, 0, 0, -23);//all in pixels
@@ -110,6 +118,8 @@ public class Wall extends Activity {
 		} else if (dadHeight == momHeight && eventual == momHeight){
 			momBool = true;
 			dadBool = true;
+			dadIcon = true;
+			momIcon = true;
 			eventualText.setText("Dad, Mom\nFuture Height");
 			eventualText.setTextSize(18);
 			eventualMLP.setMargins(0, 0, 0, -23);//all in pixels
@@ -117,6 +127,7 @@ public class Wall extends Activity {
 		} else if (dadHeight == current_height && eventual == dadHeight){
 			eventualBool = true;
 			dadBool = true;
+			dadIcon = true;
 			userText.setText(current_user + ", Dad\nFuture Height");
 			userText.setTextSize(18);
 			currentMLP.setMargins(0, 0, 0, -23);//all in pixels
@@ -124,6 +135,7 @@ public class Wall extends Activity {
 		} else if (momHeight == current_height && eventual == momHeight){
 			eventualBool = true;
 			momBool = true;
+			momIcon = true;
 			userText.setText(current_user + ", Mom\nFuture Height");
 			userText.setTextSize(18);
 			currentMLP.setMargins(0, 0, 0, -23);//all in pixels
@@ -136,35 +148,49 @@ public class Wall extends Activity {
 			userText.setLayoutParams(currentMLP);
 		} else if (dadHeight == momHeight){
 			momBool = true;
+			dadIcon = true;
+			momIcon = true;
 			dadText.setText("Dad, Mom");
 			dadMLP.setMargins(0, 0, 0, -23);//all in pixels
 			dadText.setLayoutParams(dadMLP);
 		} else if (dadHeight == eventual){
 			eventualBool = true;
+			dadIcon = true;
 			dadText.setText("Dad\nFuture Height");
 			dadText.setTextSize(18);
 			dadMLP.setMargins(0, 0, 0, -23);//all in pixels
 			dadText.setLayoutParams(dadMLP);
 		} else if (dadHeight == current_height){
 			dadBool = true;
+			dadIcon = true;
 			userText.setText(current_user + ", Dad");
 			userText.setTextSize(18);
 			currentMLP.setMargins(0, 0, 0, -23);//all in pixels
 			userText.setLayoutParams(currentMLP);
 		} else if (momHeight == eventual){
 			eventualBool = true;
+			momIcon = true;
 			momText.setText("Mom\nFuture Height");
 			momText.setTextSize(18);
 			momMLP.setMargins(0, 0, 0, -23);//all in pixels
 			momText.setLayoutParams(momMLP);
 		} else if (momHeight == current_height){
 			momBool = true;
+			momIcon = true;
 			momText.setText(current_user + "\nMom");
 			momText.setTextSize(18);
 			momMLP.setMargins(0, 0, 0, -23);//all in pixels
 			momText.setLayoutParams(momMLP);
 		} 
 
+		if (dadIcon){
+			dadIconView.setVisibility(View.GONE);
+		}
+		
+		if (momIcon){
+			momIconView.setVisibility(View.GONE);
+		}
+		
 		if (momBool){
 			momText.setVisibility(View.GONE);
 			mom.setVisibility(View.GONE);

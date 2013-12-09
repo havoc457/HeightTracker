@@ -18,7 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditUsers extends Activity {
-	
+
 	private SharedPreferences preferences;
 	private int num_users;
 	private String numEdit;
@@ -28,7 +28,7 @@ public class EditUsers extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_users);
-		
+
 		Bundle extras = getIntent().getExtras();
 		numEdit = Integer.toString(extras.getInt("EditUser"));
 		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -42,9 +42,9 @@ public class EditUsers extends Activity {
 		}
 		setTitle(current_user);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		
+
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-		
+
 		//Set maximum, minimum, and default values for the number pickers
 		NumberPicker np = (NumberPicker) findViewById(R.id.dadFeetPicker);
 		np.setMaxValue(7);
@@ -62,7 +62,7 @@ public class EditUsers extends Activity {
 		np.setMaxValue(11);
 		np.setMinValue(0);
 		np.setValue(getInches(preferences.getInt(current_user + "momHeight",0)));
-		
+
 		RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroupEdit);
 		boolean gender = preferences.getBoolean(current_user+"Gender", true);
 		if(gender){
@@ -72,7 +72,6 @@ public class EditUsers extends Activity {
 			RadioButton radioBtn = (RadioButton) rg.getChildAt(1);
 			radioBtn.setChecked(true);
 		}
-		
 	}
 
 	@Override
@@ -81,30 +80,31 @@ public class EditUsers extends Activity {
 		getMenuInflater().inflate(R.menu.edit_users, menu);
 		return true;
 	}
-	
+
 	public void save(View view){
-		
-	    EditText edit = ((EditText) findViewById(R.id.editName));
-	    current_user = edit.getText().toString();
-	    
-	    if (current_user.equals("")){
-	    	Toast.makeText(getApplicationContext(), "Please enter your name.", Toast.LENGTH_SHORT).show();
-	    } else if (current_user.length() > 13){
-	    	Toast.makeText(getApplicationContext(), "Please enter a shorter name.", Toast.LENGTH_SHORT).show();
-	    } else {
-		
+
+
+		String past_user = preferences.getString("user" + numEdit, "");
+		EditText edit = ((EditText) findViewById(R.id.editName));
+		current_user = edit.getText().toString();
+
+		if (current_user.equals("")){
+			Toast.makeText(getApplicationContext(), "Please enter your name.", Toast.LENGTH_SHORT).show();
+		} else if (current_user.length() > 13){
+			Toast.makeText(getApplicationContext(), "Please enter a shorter name.", Toast.LENGTH_SHORT).show();
+		} else {
+
 			//Go back to the home view.
-		    Intent intent = new Intent(EditUsers.this, MainMenu.class);
-		    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
-		    startActivity(intent);
-		    
-		    SharedPreferences.Editor editor = preferences.edit();
-		    if (numEdit.equals("0")){
-		    	num_users++;
-		    	editor.putInt(current_user + "numMeasures", 0);
-		    }
-	
-		    
+			Intent intent = new Intent(EditUsers.this, MainMenu.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);   
+			startActivity(intent);
+
+			SharedPreferences.Editor editor = preferences.edit();
+			if (numEdit.equals("0")){
+				num_users++;
+				editor.putInt(current_user + "numMeasures", 0);
+			}
+
 			NumberPicker np = (NumberPicker) findViewById(R.id.dadFeetPicker);
 			int dadFeet = np.getValue();
 			np = (NumberPicker) findViewById(R.id.dadInchesPicker);
@@ -115,26 +115,56 @@ public class EditUsers extends Activity {
 			np = (NumberPicker) findViewById(R.id.momInchesPicker);
 			int momInches = np.getValue();
 			int momHeight = 12*momFeet + momInches;
-			
+
 			RadioButton genderBtn = (RadioButton) findViewById(R.id.radioBoy);
-	        boolean gender = true;
-	        if (!genderBtn.isChecked()){
-	        	gender = false;
-	        }
-	        
-	        int eventual = estimateHeight(dadHeight, momHeight, gender);
+			boolean gender = true;
+			if (!genderBtn.isChecked()){
+				gender = false;
+			}
+
+			int eventual = estimateHeight(dadHeight, momHeight, gender);
 			editor.putInt(current_user+"dadHeight", dadHeight);
 			editor.putInt(current_user+"momHeight", momHeight);
 			editor.putBoolean(current_user+"Gender", gender);
 			editor.putInt(current_user+"eventual", eventual);
-		    editor.putString("user"+num_users, current_user);
-		    editor.putString("num_users", Integer.toString(num_users));
-		    editor.putString("current_user", current_user);
-		    editor.commit();
-	    }
-	    
+			editor.putString("user"+num_users, current_user);
+			editor.putString("num_users", Integer.toString(num_users));
+			editor.putString("current_user", current_user);
+
+			int numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);
+			int numMeasuresObjects = preferences.getInt(current_user + "numMeasuresObjects", 0);
+			if (!past_user.equals(current_user)){
+				editor.remove(past_user+"dadHeight");
+				editor.remove(past_user+"momHeight");
+				editor.remove(past_user+"Gender");
+				editor.remove(past_user+"eventual");
+				
+				if (numMeasuresUser > 0){
+					for (int i = 0; i < numMeasuresUser; i++){
+						editor.putInt(current_user + "Measure" + i, preferences.getInt(past_user + "Measure" + i, 0));
+						editor.putString(current_user + "Measure" + i + "Date", preferences.getString(past_user + "Measure" + i + "Date", ""));
+						editor.putString(current_user + "Measure" + i + "Name", preferences.getString(past_user + "Measure" + i + "Name", ""));
+						editor.remove(past_user + "Measure" + i);
+						editor.remove(past_user + "Measure" + i + "Date");
+						editor.remove(past_user + "Measure" + i + "Name");
+					}
+				}
+				if (numMeasuresObjects > 0){		
+					for (int i = 0; i < numMeasuresUser; i++){
+						editor.putInt(current_user + "Object" + i, preferences.getInt(past_user + "Object" + i, 0));
+						editor.putString(current_user + "Object" + i + "Date", preferences.getString(past_user + "Object" + i + "Date", ""));
+						editor.putString(current_user + "Object" + i + "Name", preferences.getString(past_user + "Object" + i + "Name", ""));
+						editor.remove(past_user + "Object" + i);
+						editor.remove(past_user + "Object" + i + "Date");
+						editor.remove(past_user + "Object" + i + "Name");
+					}
+				}
+			}
+			editor.commit();
+		}
+
 	}
-	
+
 	//For calculating eventual height. Takes integer dad's height and mom's height, boolean boy is true for boys, false for girls.
 	//Returns height in inches.
 	public int estimateHeight(int dad, int mom, boolean boy){
@@ -144,13 +174,13 @@ public class EditUsers extends Activity {
 			return (dad+mom-5)/2;
 		}
 	}
-	
+
 	public int getFeet(int inches){
 		return inches / 12;
 	}
-	
+
 	public int getInches(int inches){
 		return inches % 12;
 	}
-	
+
 }

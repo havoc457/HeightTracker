@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/wallScroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:background="@color/yellow">
+    android:layout_height="match_parent"
+    android:background="@color/yellow" >
 
     <RelativeLayout
         android:id="@+id/wallLayout"
@@ -19,15 +19,15 @@
             android:layout_toLeftOf="@+id/zeroMark"
             android:scaleType="fitXY"
             android:src="@drawable/blue_arrow_paint" />
-        
-		<ImageView
-		    android:id="@+id/momHeightArrow"
-		    android:layout_width="100dp"
-		    android:layout_height="30dp"
-		    android:layout_alignBottom="@+id/zeroMark"
-		    android:layout_toLeftOf="@+id/zeroMark"
-		    android:scaleType="fitXY"
-		    android:src="@drawable/blue_arrow_paint" />
+
+        <ImageView
+            android:id="@+id/momHeightArrow"
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@+id/zeroMark"
+            android:layout_toLeftOf="@+id/zeroMark"
+            android:scaleType="fitXY"
+            android:src="@drawable/blue_arrow_paint" />
 
         <ImageView
             android:id="@+id/futureArrow"
@@ -38,7 +38,7 @@
             android:layout_toLeftOf="@+id/zeroMark"
             android:scaleType="fitXY"
             android:src="@drawable/red_arrow_paint" />
-        
+
         <ImageView
             android:id="@+id/zeroMark"
             android:layout_width="125dp"
@@ -47,14 +47,14 @@
             android:layout_below="@+id/ruler0"
             android:scaleType="fitXY"
             android:src="@drawable/zero_marking" />
-        
+
         <ImageView
             android:id="@+id/ruler0"
             android:layout_width="125dp"
             android:layout_height="700dp"
-            android:scaleType="fitXY"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/ruler1"
+            android:scaleType="fitXY"
             android:src="@drawable/ruler_zero" />
 
         <ImageView
@@ -70,8 +70,8 @@
             android:id="@+id/current"
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:layout_toLeftOf="@+id/ruler0"
             android:layout_alignBottom="@+id/ruler0"
+            android:layout_toLeftOf="@+id/ruler0"
             android:scaleType="fitXY"
             android:src="@drawable/green_arrow_paint" />
 
@@ -80,110 +80,131 @@
             android:layout_width="125dp"
             android:layout_height="700dp"
             android:layout_alignParentRight="true"
-            android:scaleType="fitXY"
             android:layout_below="@+id/ruler3"
+            android:scaleType="fitXY"
             android:src="@drawable/ruler_two" />
-        
-		<ImageView
+
+        <ImageView
             android:id="@+id/ruler3"
             android:layout_width="125dp"
             android:layout_height="700dp"
             android:layout_alignParentRight="true"
-            android:scaleType="fitXY"
             android:layout_below="@+id/ruler4"
+            android:scaleType="fitXY"
             android:src="@drawable/ruler_three" />
-		
-		<ImageView
+
+        <ImageView
             android:id="@+id/ruler4"
             android:layout_width="125dp"
             android:layout_height="700dp"
             android:layout_alignParentRight="true"
-            android:scaleType="fitXY"
             android:layout_below="@+id/ruler5"
+            android:scaleType="fitXY"
             android:src="@drawable/ruler_four" />
-		
-		<ImageView
+
+        <ImageView
             android:id="@+id/ruler5"
             android:layout_width="125dp"
             android:layout_height="700dp"
             android:layout_alignParentRight="true"
-            android:scaleType="fitXY"
             android:layout_below="@+id/ruler6"
+            android:scaleType="fitXY"
             android:src="@drawable/ruler_five" />
-		
-		<ImageView
+
+        <ImageView
             android:id="@+id/ruler6"
             android:layout_width="125dp"
             android:layout_height="700dp"
             android:layout_alignParentRight="true"
-            android:scaleType="fitXY"
             android:layout_below="@+id/ruler7"
+            android:scaleType="fitXY"
             android:src="@drawable/ruler_six" />
-		
-		<ImageView
+
+        <ImageView
             android:id="@+id/ruler7"
             android:layout_width="125dp"
             android:layout_height="700dp"
             android:layout_alignParentRight="true"
-            android:scaleType="fitXY"
             android:layout_alignParentTop="true"
+            android:scaleType="fitXY"
             android:src="@drawable/ruler_seven" />
-		
-		<TextView
-		    android:id="@+id/dadHeightText"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignBottom="@+id/dadHeightArrow"
-		    android:layout_marginRight="10dp"
-		    android:layout_toLeftOf="@+id/dadHeightArrow"
-		    android:layout_marginBottom="2dp"
-		    android:text="@string/dad"
-		    android:textSize="26sp" />
 
-		<TextView
-		    android:id="@+id/momHeightText"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignBottom="@+id/momHeightArrow"
-		    android:layout_marginRight="10dp"
-		    android:layout_toLeftOf="@+id/momHeightArrow"
-		    android:layout_marginBottom="2dp"
-		    android:text="@string/mom"
-		    android:textSize="26sp" />
-		
-		<TextView
-		    android:id="@+id/userHeightText"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignBottom="@+id/current"
-		    android:layout_marginRight="10dp"
-		    android:layout_toLeftOf="@+id/current"
-		    android:layout_marginBottom="2dp"
-		    android:textSize="26sp" />
-		
-		<TextView
-		    android:id="@+id/futureText"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignBottom="@+id/futureArrow"
-		    android:layout_alignTop="@+id/futureArrow"
-		    android:layout_marginRight="10dp"
-		    android:layout_marginBottom="5dp"
-		    android:layout_toLeftOf="@+id/futureArrow"
-		    android:text="@string/future"
-		    android:textSize="18sp" />
+        <TextView
+            android:id="@+id/dadHeightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/dadHeightArrow"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/dadHeightArrow"
+            android:text="@string/dad"
+            android:textSize="26sp" />
 
-		<ImageView
-		    android:id="@+id/userStar"
-		    android:layout_width="30dp"
-		    android:layout_height="30dp"
-		    android:layout_alignBottom="@+id/userHeightText"
-		    android:layout_toLeftOf="@+id/userHeightText"
-		    android:scaleType="fitXY"
-		    android:layout_marginBottom="2dp"
-		    android:layout_marginRight="10dp"
-		    android:src="@drawable/star" />
+        <TextView
+            android:id="@+id/momHeightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/momHeightArrow"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/momHeightArrow"
+            android:text="@string/mom"
+            android:textSize="26sp" />
 
+        <TextView
+            android:id="@+id/userHeightText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/current"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/current"
+            android:textSize="26sp" />
+
+        <TextView
+            android:id="@+id/futureText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/futureArrow"
+            android:layout_alignTop="@+id/futureArrow"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/futureArrow"
+            android:text="@string/future"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/userStar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@+id/userHeightText"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/userHeightText"
+            android:scaleType="fitXY"
+            android:src="@drawable/star" />
+
+        <ImageView
+            android:id="@+id/dadIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@+id/dadHeightText"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/dadHeightText"
+            android:scaleType="fitXY"
+            android:src="@drawable/dad_face" />
+
+        <ImageView
+            android:id="@+id/momIcon"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignBottom="@+id/momHeightText"
+            android:layout_marginBottom="2dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/momHeightText"
+            android:scaleType="fitXY"
+            android:src="@drawable/mom_face" />
     </RelativeLayout>
 
 </ScrollView>

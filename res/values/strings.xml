@@ -14,6 +14,7 @@
     <string name="boy">Boy</string>
     <string name="girl">Girl</string>
     <string name="name">Name:</string>
+    <string name="cali_title">Start Calibrating?</string>
 
     <string-array name="landmarks">
         <item>Big Ben</item>

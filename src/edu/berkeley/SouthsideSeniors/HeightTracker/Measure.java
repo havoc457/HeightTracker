@@ -9,6 +9,8 @@ import org.achartengine.renderer.XYMultipleSeriesRenderer;
 import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -20,9 +22,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.SeekBar;
@@ -30,13 +30,16 @@ import android.widget.SeekBar;
 public class Measure extends Activity implements SensorEventListener {
 	private SensorManager mSensorManager;
 	private Sensor mAccel;
-	private double resultInMeters = 0, aggregateResultInMeters = 0, avgResultInMeters = 0;
+	private double resultInMeters = 0, aggregateResultInMeters = 0,
+			avgResultInMeters = 0;
 	private boolean started = false, cali_started = false;
-	//private LinearLayout chartLayout;
-	//private View mChart;
-	//private TextView magnitudeResult, debugXResult, debugYResult, debugZResult;
+	private AlertDialog caliDialog;
+	// private LinearLayout chartLayout;
+	// private View mChart;
+	// private TextView magnitudeResult, debugXResult, debugYResult,
+	// debugZResult;
 	private ArrayList<Datapoint> accelData, velocityData, v_GaussianData,
-	outPutData;
+			outPutData;
 	public static final int UP = 1, DOWN = -1;
 	private int direction = UP, count = 1;
 	private double gravityOffset = 9.71;
@@ -54,11 +57,12 @@ public class Measure extends Activity implements SensorEventListener {
 
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		mAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		//magnitudeResult = (TextView) findViewById(R.id.textView_magnitudeResult);
-		//chartLayout = (LinearLayout) findViewById(R.id.chart_container);
-		//debugXResult = (TextView) findViewById(R.id.vec0);
-		//debugYResult = (TextView) findViewById(R.id.vec1);
-		//debugZResult = (TextView) findViewById(R.id.vec2);
+		// magnitudeResult = (TextView)
+		// findViewById(R.id.textView_magnitudeResult);
+		// chartLayout = (LinearLayout) findViewById(R.id.chart_container);
+		// debugXResult = (TextView) findViewById(R.id.vec0);
+		// debugYResult = (TextView) findViewById(R.id.vec1);
+		// debugZResult = (TextView) findViewById(R.id.vec2);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 		resultInMeters = 0;
@@ -70,53 +74,61 @@ public class Measure extends Activity implements SensorEventListener {
 		resultInMeters = 0;
 
 		// Setting initial seekbar state
-		LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(R.drawable.bg_shape);
+		LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(
+				R.drawable.bg_shape);
 		Drawable[] bgLayers = new Drawable[2];
 		bgLayers[0] = bgShape.getDrawable(0);
 		bgLayers[1] = getResources().getDrawable(R.drawable.feet_swipe_bm);
 		LayerDrawable newbgLayers = new LayerDrawable(bgLayers);
-		SeekBar sb = (SeekBar)findViewById(R.id.measure_slider);
+		SeekBar sb = (SeekBar) findViewById(R.id.measure_slider);
 		sb.setBackground(newbgLayers);
 		sb.setProgress(0);
-		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){ 
-			
-			@Override 
-			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				//progress = Math.round(progress / smoothnessFactor);
-	            if(fromUser == true){
-	                  // only allow changes by 1 up or down
-	                  if ((progress > (originalProgress+35))
-	                       || (progress < (originalProgress-35))) {
-	                     seekBar.setProgress( originalProgress);
-	                  } else {
-	                      originalProgress = progress;
-	                  }
-	               }   
-			} 
+		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
-			@Override 
-			public void onStartTrackingTouch(SeekBar seekBar) { 
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				// progress = Math.round(progress / smoothnessFactor);
+				if (fromUser == true) {
+					// only allow changes by 1 up or down
+					if ((progress > (originalProgress + 35))
+							|| (progress < (originalProgress - 35))) {
+						seekBar.setProgress(originalProgress);
+					} else {
+						originalProgress = progress;
+					}
+				}
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
 				originalProgress = seekBar.getProgress();
-			} 
+			}
 
-			@Override 
-			public void onStopTrackingTouch(SeekBar seekBar) { 
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
 				int progress = seekBar.getProgress();
-				seekBar.setProgress(Math.round((progress + (smoothnessFactor / 2)) / smoothnessFactor) * smoothnessFactor);
-				if (progress > 75){
-					if (swipes < 2){
+				seekBar.setProgress(Math
+						.round((progress + (smoothnessFactor / 2))
+								/ smoothnessFactor)
+						* smoothnessFactor);
+				if (progress > 75) {
+					if (swipes < 2) {
 						swipes++;
-						LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(R.drawable.bg_shape);
+						LayerDrawable bgShape = (LayerDrawable) getResources()
+								.getDrawable(R.drawable.bg_shape);
 						Drawable[] bgLayers = new Drawable[2];
 						bgLayers[0] = bgShape.getDrawable(0);
-						if (swipes == 1){
-							bgLayers[1] = getResources().getDrawable(R.drawable.head_swipe_bm);
-						} else if (swipes == 2){
-							bgLayers[1] = getResources().getDrawable(R.drawable.feet_swipe_bm);
+						if (swipes == 1) {
+							bgLayers[1] = getResources().getDrawable(
+									R.drawable.head_swipe_bm);
+						} else if (swipes == 2) {
+							bgLayers[1] = getResources().getDrawable(
+									R.drawable.feet_swipe_bm);
 						}
-						
+
 						LayerDrawable newbgLayers = new LayerDrawable(bgLayers);
-						SeekBar sb = (SeekBar)findViewById(R.id.measure_slider);
+						SeekBar sb = (SeekBar) findViewById(R.id.measure_slider);
 						sb.setBackground(newbgLayers);
 						seekBar.setProgress(0);
 						startMeasure();
@@ -125,8 +137,8 @@ public class Measure extends Activity implements SensorEventListener {
 						results();
 					}
 				}
-			} 
-		}); 
+			}
+		});
 	}
 
 	@Override
@@ -334,11 +346,11 @@ public class Measure extends Activity implements SensorEventListener {
 		avgResultInMeters = aggregateResultInMeters / count;
 
 		Intent i = new Intent(this, Results.class);
-		i.putExtra("heightInInches", metersToInches(avgResultInMeters)); 
+		i.putExtra("heightInInches", metersToInches(avgResultInMeters));
 		startActivity(i);
-		//magnitudeResult.setText(String.valueOf(avgResultInMeters));
-		//chartLayout.removeAllViews();
-		//openChart();
+		// magnitudeResult.setText(String.valueOf(avgResultInMeters));
+		// chartLayout.removeAllViews();
+		// openChart();
 	}
 
 	private void openChart() {
@@ -405,44 +417,52 @@ public class Measure extends Activity implements SensorEventListener {
 			// Getting a reference to LinearLayout of the MainActivity Layout
 
 			// Creating a Line Chart
-			//mChart = ChartFactory.getLineChartView(getBaseContext(), dataset, multiRenderer);
+			// mChart = ChartFactory.getLineChartView(getBaseContext(), dataset,
+			// multiRenderer);
 
 			// Adding the Line Chart to the LinearLayout
-			//chartLayout.addView(mChart);
+			// chartLayout.addView(mChart);
 		}
 	}
 
-	public boolean calibrate(View view) {
+	/*
+	 * public boolean calibrate(View view) { if (started == true) { return
+	 * false; } if (cali_started == false) { accelData = new
+	 * ArrayList<Datapoint>(); cali_started = true; direction = UP;
+	 * mSensorManager.registerListener(this, mAccel,
+	 * SensorManager.SENSOR_DELAY_FASTEST); } else { cali_started = false;
+	 * mSensorManager.unregisterListener(this); double avgGravityError = 0; int
+	 * num = 0; if (accelData.size() < 100) { //
+	 * debugXResult.setText("time too short"); return false; } for (int i = 40;
+	 * i < accelData.size() - 40; i++) { avgGravityError +=
+	 * accelData.get(i).getZ(); num++; } avgGravityError = avgGravityError /
+	 * num; gravityOffset += avgGravityError; //
+	 * debugXResult.setText(String.valueOf(gravityOffset)); } return true; }
+	 */
+
+	public void calibrate(View view) {
 		if (started == true) {
-			return false;
+			return;
 		}
-		if (cali_started == false) {
-			accelData = new ArrayList<Datapoint>();
-			cali_started = true;
-			direction = UP;
-			mSensorManager.registerListener(this, mAccel,
-					SensorManager.SENSOR_DELAY_FASTEST);
-		} else {
-			cali_started = false;
-			mSensorManager.unregisterListener(this);
-			double avgGravityError = 0;
-			int num = 0;
-			if (accelData.size()<100) {
-				//debugXResult.setText("time too short");
-				return false;
+		caliDialog = new AlertDialog.Builder(this).create();
+		caliDialog.setMessage("Please place this device on a flat surface to calibrate. The whole process takes 8 seconds to complete.");
+		caliDialog.setTitle(R.string.cali_title);
+		caliDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// User clicked OK button
 			}
-			for (int i = 40; i<accelData.size()-40; i++) {
-				avgGravityError += accelData.get(i).getZ();
-				num++;
+		});
+		
+		caliDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// User cancelled the dialog
 			}
-			avgGravityError = avgGravityError / num;
-			gravityOffset += avgGravityError;
-			//debugXResult.setText(String.valueOf(gravityOffset));
-		}
-		return true;
+		});
+		caliDialog.show();
+		return;
 	}
-	
-	public boolean help(View view){
+
+	public boolean help(View view) {
 		Intent i = new Intent(this, Tutorial.class);
 		startActivity(i);
 		return true;
