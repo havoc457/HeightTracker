@@ -15,7 +15,7 @@
         android:layout_centerVertical="true"
         android:maxHeight="500dp"
         android:minHeight="500dp"
-        android:layout_marginRight="100dp"
+        android:layout_marginRight="104dp"
         android:paddingLeft="1px"
         android:progressDrawable="@drawable/slider_bg"
         android:thumb="@drawable/slider_thumb"
@@ -43,5 +43,15 @@
         android:scaleType="fitXY"
         android:onClick="help"
         android:src="@drawable/info_icon" />
+
+    <TextView
+        android:id="@+id/stepText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textSize="33sp"
+        android:paddingRight="8dp"
+        android:textColor="@color/white"/>
 
 </RelativeLayout>

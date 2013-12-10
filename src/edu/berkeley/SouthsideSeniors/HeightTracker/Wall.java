@@ -6,17 +6,17 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.MarginLayoutParams;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TabHost;
 import android.widget.TextView;
 
 public class Wall extends Activity {
@@ -25,19 +25,20 @@ public class Wall extends Activity {
 	private int num_users;
 	private ScrollView scroll;
 	private TextView userText;
+	private int current_height;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_wall);
-
+		
+		scroll = (ScrollView) findViewById(R.id.wallScroll);
 		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		num_users = Integer.parseInt(preferences.getString("num_users","0"));
 		userText = (TextView) findViewById(R.id.userHeightText);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
+		
 		String current_user;
-		int current_height;
 		if (num_users == 0){
 			current_user = "Please Add New User";
 			current_height = 0;
@@ -102,9 +103,6 @@ public class Wall extends Activity {
 		if (current_user.length() > 9){
 			star.setVisibility(View.GONE);
 		}
-
-		scroll = (ScrollView) findViewById(R.id.wallScroll);
-		scroll.scrollBy(0, current_height);
 
 		MarginLayoutParams currentMLP = (MarginLayoutParams) userText.getLayoutParams();
 		MarginLayoutParams eventualMLP = (MarginLayoutParams) eventualText.getLayoutParams();
@@ -186,6 +184,8 @@ public class Wall extends Activity {
 			momMLP.setMargins(0, 0, 0, -23);//all in pixels
 			momText.setLayoutParams(momMLP);
 		} 
+		
+		scroll.smoothScrollTo(0, Math.round(userText.getY()));
 
 		if (dadIcon){
 			dadIconView.setVisibility(View.GONE);
@@ -258,28 +258,20 @@ public class Wall extends Activity {
 				}
 			}
 		}
-		focusOnView();
-		scroll.smoothScrollTo(0, Math.round(userText.getY()));
-		System.out.println("focusing1: " + userText.getY());
+		 ViewTreeObserver vto = scroll.getViewTreeObserver();
+		 vto.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+		      public void onGlobalLayout() {
+		           scroll.scrollTo(0, userText.getBottom()-900);
+		      }
+		 });
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		focusOnView();
-		System.out.println("focusing2: " + userText.getBottom());
-		scroll.smoothScrollTo(0, userText.getBottom());
+		scroll.smoothScrollTo(0, userText.getBottom()-900);
 	}
-
-	private final void focusOnView(){
-		new Handler().post(new Runnable() {
-			@Override
-			public void run() {
-				scroll.scrollTo(0, userText.getBottom());
-			}
-		});
-
-	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.

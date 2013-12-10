@@ -39,7 +39,7 @@ public class Log extends Activity {
 		if (num_users == 0){
 			current_user = "Please Add New User";
 		} else {
-			current_user = preferences.getString("current_user", "");  //what if same names of users?
+			current_user = preferences.getString("current_user", "");
 		}
 		setTitle(current_user);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -226,7 +226,8 @@ public class Log extends Activity {
 			if (numDeleted > 0){
 				numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);
 				editor.putInt(current_user + "numMeasuresUser", numMeasuresUser-numDeleted);
-				editor.putInt(current_user + "current_height", preferences.getInt(current_user + "Measure" + (numMeasuresUser-numDeleted-1), 0));
+				editor.putInt(current_user + "current_height", preferences.getInt(current_user 
+											+ "Measure" + (numMeasuresUser-numDeleted-1), 0));
 				editor.putInt("currentTab", tabHost.getCurrentTab());
 				editor.commit();
 				finish();
@@ -241,7 +242,7 @@ public class Log extends Activity {
 					for (int j = i; j < numRowsOther; j++){
 						int measureResult = preferences.getInt(current_user + "Object" + (j+1), 0);  //this measurement result
 						String dateString = preferences.getString(current_user + "Object" + (j+1) + "Date", "No Recorded Date");
-						String objectName = preferences.getString(current_user + "Object" + (j+1) + "Name", "No Name");  //this measurement result
+						String objectName = preferences.getString(current_user + "Object" + (j+1) + "Name", "No Name");  
 
 						editor.putInt(current_user + "Object" + j, measureResult);  //this measurement result
 						editor.putString(current_user + "Object" + j + "Date", dateString);  //date of this result

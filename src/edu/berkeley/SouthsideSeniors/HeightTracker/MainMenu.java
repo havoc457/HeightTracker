@@ -50,10 +50,11 @@ public class MainMenu extends Activity {
 		if (current_height == 0){
 			current_height_text = "No Recent Height";
 		} else {
-			current_height_text = "Most Recent: " + Integer.toString(getFeet(current_height)) + "'" + Integer.toString(getInches(current_height))+ "\"";
+			current_height_text = "Most Recent: " + Integer.toString(getFeet(current_height)) + "'" 
+												+ Integer.toString(getInches(current_height))+ "\"";
 		}
 		recent.setText(current_height_text);
-		
+		//addJunkData();
 	}
 
 	@Override
@@ -73,7 +74,8 @@ public class MainMenu extends Activity {
 		if (current_height == 0){
 			current_height_text = "No Recent Height";
 		} else {
-			current_height_text = "Most Recent: " + Integer.toString(getFeet(current_height)) + "'" + Integer.toString(getInches(current_height))+ "\"";
+			current_height_text = "Most Recent: " + Integer.toString(getFeet(current_height)) 
+											+ "'" + Integer.toString(getInches(current_height))+ "\"";
 		}
 		recent.setText(current_height_text);
 	}
@@ -123,5 +125,19 @@ public class MainMenu extends Activity {
 
 	public final static int getInches(int inches){
 		return inches % 12;
+	}
+	
+	public void addJunkData() {
+		SharedPreferences.Editor editor = preferences.edit();
+		int x = 5;
+		
+		for (int i = 0; i < 20; i++) {
+			editor.putInt(current_user + "Object" + i, (x+i));
+			editor.putString(current_user + "Object" + i + "Name", current_user);
+			editor.putString(current_user + "Object" + i + "Date", "12/05/2013");
+		}
+		
+		editor.putInt(current_user + "numMeasuresObjects", 19);
+		editor.commit();
 	}
 }

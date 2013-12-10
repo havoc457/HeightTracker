@@ -113,6 +113,8 @@ public class Results extends Activity {
 		} else if (otherRadio.isChecked()) {
 			if (enteredText.getText().toString().equals("")){
 				Toast.makeText(this, "Please enter this object's name.", Toast.LENGTH_SHORT).show();
+			} else if (enteredText.getText().toString().length() > 15){
+				Toast.makeText(this, "Please enter a shorter object name.", Toast.LENGTH_SHORT).show();
 			} else {
 				Intent i = new Intent(this, MainMenu.class);
 				objectName = enteredText.getText().toString();  //make sure this can't be "" I guess

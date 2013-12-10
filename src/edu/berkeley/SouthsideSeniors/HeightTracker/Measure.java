@@ -10,7 +10,7 @@ import org.achartengine.renderer.XYSeriesRenderer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -20,12 +20,14 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 public class Measure extends Activity implements SensorEventListener {
 	private SensorManager mSensorManager;
@@ -46,6 +48,9 @@ public class Measure extends Activity implements SensorEventListener {
 	private int swipes = 0;
 	private int originalProgress;
 	private int smoothnessFactor = 10;
+	private MediaPlayer mp; 
+	private TextView step;
+	private int paddingDp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +59,8 @@ public class Measure extends Activity implements SensorEventListener {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_measure);
+		Context context = getApplicationContext();
+		mp = MediaPlayer.create(context, R.raw.unlock);
 
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		mAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -81,8 +88,13 @@ public class Measure extends Activity implements SensorEventListener {
 		bgLayers[1] = getResources().getDrawable(R.drawable.feet_swipe_bm);
 		LayerDrawable newbgLayers = new LayerDrawable(bgLayers);
 		SeekBar sb = (SeekBar) findViewById(R.id.measure_slider);
+		step = (TextView) findViewById(R.id.stepText);
+		step.setText("Step\n 1/3");
 		sb.setBackground(newbgLayers);
 		sb.setProgress(0);
+		int paddingPixel = 16;
+		float density = context.getResources().getDisplayMetrics().density;
+		paddingDp = (int)(paddingPixel * density);
 		sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
 			@Override
@@ -111,6 +123,7 @@ public class Measure extends Activity implements SensorEventListener {
 								/ smoothnessFactor)
 								* smoothnessFactor);
 				if (progress > 75) {
+					mp.start();
 					if (swipes < 2) {
 						swipes++;
 						LayerDrawable bgShape = (LayerDrawable) getResources()
@@ -118,11 +131,13 @@ public class Measure extends Activity implements SensorEventListener {
 						Drawable[] bgLayers = new Drawable[2];
 						bgLayers[0] = bgShape.getDrawable(0);
 						if (swipes == 1) {
-							bgLayers[1] = getResources().getDrawable(
-									R.drawable.head_swipe_bm);
+							bgLayers[1] = getResources().getDrawable(R.drawable.head_swipe_bm);
+							step.setText("Step\n 2/3");
+							step.setPadding(0, 0, paddingDp, 0);
 						} else if (swipes == 2) {
-							bgLayers[1] = getResources().getDrawable(
-									R.drawable.feet_swipe_bm);
+							bgLayers[1] = getResources().getDrawable(R.drawable.feet_swipe_bm_dash);
+							step.setText("Step\n 3/3");
+							step.setPadding(0, 0, paddingDp, 0);
 						}
 
 						LayerDrawable newbgLayers = new LayerDrawable(bgLayers);
@@ -132,6 +147,7 @@ public class Measure extends Activity implements SensorEventListener {
 						startMeasure();
 					} else {
 						swipes = 0;
+						
 						results();
 					}
 				}

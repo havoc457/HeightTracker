@@ -24,7 +24,8 @@ public class CustomOnItemSelectedListener implements OnItemSelectedListener {
 	  
 	  SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 	  TextView compareTV= (TextView) layout.getChildAt(2);
-	  int current_height = preferences.getInt("current_height", 1);
+	  String current_user = preferences.getString("current_user","Please Add New User");
+	  int current_height = preferences.getInt(current_user + "current_height", 1);
 	  compareTV.setText(" That's " + Integer.toString(12*Integer.parseInt(height[pos])/current_height));
 	  System.out.println("Current: " + current_height);
 	  

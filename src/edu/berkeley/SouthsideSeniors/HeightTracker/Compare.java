@@ -11,13 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
-import edu.berkeley.SouthsideSeniors.HeightTracker.R;
 
 public class Compare extends Activity {
-	
+
 	private SharedPreferences preferences;
 	private int num_users;
 	private Spinner spinner;
+	private int current_height;
+	private String current_user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,13 +28,11 @@ public class Compare extends Activity {
 		TextView compareTV=(TextView)findViewById(R.id.landmarkCompare);
 		TextView userName=(TextView)findViewById(R.id.userName);
 		spinner=(Spinner)findViewById(R.id.landmarkSpinner);
-		
+
 		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		num_users = Integer.parseInt(preferences.getString("num_users","0"));
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		int current_height;
-		String current_user;
 		if (num_users == 0){
 			current_user = "Please Add New User";
 			userName.setVisibility(View.GONE);
@@ -45,20 +44,20 @@ public class Compare extends Activity {
 			userName.setText("   " + current_user + "s!");
 		}
 		setTitle(current_user);
-		
+
 		if (current_height == 0 || current_user == ""){
 			userName.setVisibility(View.GONE);
 			compareTV.setVisibility(View.GONE);
 		}
 
 		addListenerOnSpinnerItemSelection();
-	  }
-	 
-	  public void addListenerOnSpinnerItemSelection() {
+	}
+
+	public void addListenerOnSpinnerItemSelection() {
 		spinner = (Spinner) findViewById(R.id.landmarkSpinner);
 		spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
-	  }
-	 
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -68,7 +67,7 @@ public class Compare extends Activity {
 	public boolean users(MenuItem item){
 		Intent i = new Intent(this, ViewUsers.class);
 		startActivity(i);
-	    return true;
+		return true;
 	}
 
 }
