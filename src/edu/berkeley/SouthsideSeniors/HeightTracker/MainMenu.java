@@ -54,7 +54,6 @@ public class MainMenu extends Activity {
 												+ Integer.toString(getInches(current_height))+ "\"";
 		}
 		recent.setText(current_height_text);
-		addJunkData();
 	}
 
 	@Override

@@ -55,6 +55,7 @@ public class Measure extends Activity implements SensorEventListener {
 		setContentView(R.layout.activity_measure);
 		Context context = getApplicationContext();
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		mp = MediaPlayer.create(context, R.raw.unlock);
 
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		mAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
@@ -273,7 +274,7 @@ public class Measure extends Activity implements SensorEventListener {
 	}
 
 	public double gaussian(double x) {
-		double sigma = 0.04;
+		double sigma = 0.03;
 		return Math.pow(Math.E, -(x * x) / 2.0 / (sigma * sigma))
 				/ Math.sqrt(2 * Math.PI * sigma * sigma);
 	}
