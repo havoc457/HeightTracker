@@ -2,18 +2,13 @@ package edu.berkeley.SouthsideSeniors.HeightTracker;
 
 import java.util.ArrayList;
 
-import org.achartengine.chart.PointStyle;
-import org.achartengine.model.XYMultipleSeriesDataset;
-import org.achartengine.model.XYSeries;
-import org.achartengine.renderer.XYMultipleSeriesRenderer;
-import org.achartengine.renderer.XYSeriesRenderer;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.hardware.Sensor;
@@ -22,6 +17,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -32,44 +29,35 @@ import android.widget.TextView;
 public class Measure extends Activity implements SensorEventListener {
 	private SensorManager mSensorManager;
 	private Sensor mAccel;
-	private double resultInMeters = 0, aggregateResultInMeters = 0,
-			avgResultInMeters = 0;
-	private boolean started = false, cali_started = false;
+	private double resultInMeters = 0, aggregateResultInMeters = 0, avgResultInMeters = 0;
+	public boolean started = false, cali_started = false;
 	private AlertDialog caliDialog;
-	// private LinearLayout chartLayout;
-	// private View mChart;
-	// private TextView magnitudeResult, debugXResult, debugYResult,
-	// debugZResult;
-	private ArrayList<Datapoint> accelData, velocityData, v_GaussianData,
-	outPutData;
+	private Handler caliHandler1;
+	private Runnable runPrecaliCountdown;
+	private ArrayList<Datapoint> accelData, velocityData, v_GaussianData, outPutData;
 	public static final int UP = 1, DOWN = -1;
 	private int direction = UP, count = 1;
-	private double gravityOffset = 9.71;
+	public double gravityOffset;
 	private int swipes = 0;
 	private int originalProgress;
 	private int smoothnessFactor = 10;
-	private MediaPlayer mp; 
-	private TextView step;
+	private Measure thisActivity = this;
+	private SharedPreferences preferences;
+	private MediaPlayer mp;
 	private int paddingDp;
+	private TextView step;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_measure);
 		Context context = getApplicationContext();
-		mp = MediaPlayer.create(context, R.raw.unlock);
+		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
 		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
 		mAccel = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-		// magnitudeResult = (TextView)
-		// findViewById(R.id.textView_magnitudeResult);
-		// chartLayout = (LinearLayout) findViewById(R.id.chart_container);
-		// debugXResult = (TextView) findViewById(R.id.vec0);
-		// debugYResult = (TextView) findViewById(R.id.vec1);
-		// debugZResult = (TextView) findViewById(R.id.vec2);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
 		resultInMeters = 0;
@@ -77,19 +65,18 @@ public class Measure extends Activity implements SensorEventListener {
 		avgResultInMeters = 0;
 		started = false;
 		cali_started = false;
-
+		gravityOffset = (double) preferences.getFloat("gravityOffset", (float) 9.71);
 		resultInMeters = 0;
 
 		// Setting initial seekbar state
-		LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(
-				R.drawable.bg_shape);
+		LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(R.drawable.bg_shape);
 		Drawable[] bgLayers = new Drawable[2];
 		bgLayers[0] = bgShape.getDrawable(0);
 		bgLayers[1] = getResources().getDrawable(R.drawable.feet_swipe_bm);
 		LayerDrawable newbgLayers = new LayerDrawable(bgLayers);
-		SeekBar sb = (SeekBar) findViewById(R.id.measure_slider);
 		step = (TextView) findViewById(R.id.stepText);
 		step.setText("Step\n 1/3");
+		SeekBar sb = (SeekBar) findViewById(R.id.measure_slider);
 		sb.setBackground(newbgLayers);
 		sb.setProgress(0);
 		int paddingPixel = 16;
@@ -99,10 +86,10 @@ public class Measure extends Activity implements SensorEventListener {
 
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-				// progress = Math.round(progress / smoothnessFactor);
 				if (fromUser == true) {
 					// only allow changes by 1 up or down
-					if ((progress > (originalProgress + 35)) || (progress < (originalProgress - 35))) {
+					if ((progress > (originalProgress + 35))
+							|| (progress < (originalProgress - 35))) {
 						seekBar.setProgress(originalProgress);
 					} else {
 						originalProgress = progress;
@@ -175,13 +162,6 @@ public class Measure extends Activity implements SensorEventListener {
 			double accel = (mag(temp) - (float) gravityOffset);
 			Datapoint data = new Datapoint(timestamp, 0, 0, accel * direction);
 			accelData.add(data);
-
-			// magnitudeResult.setText(String.valueOf((int) (velocity * 1000)));
-			// magnitudeResult.setText(String.valueOf(resultInMeters));
-			// debugXResult.setText(String.valueOf((int) (0)));
-			// debugYResult.setText(String.valueOf((int) (0)));
-			// debugZResult.setText(String.valueOf((int) (linearAccelz *
-			// 1000)));
 		}
 	}
 
@@ -302,10 +282,6 @@ public class Measure extends Activity implements SensorEventListener {
 		return (float) Math.sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
 	}
 
-	/*
-	 * public float lowPassFilter(float base, float input) { float alpha =
-	 * (float) 0.9; return alpha * base + (1 - alpha) * input; }
-	 */
 	public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		return;
 	}
@@ -360,133 +336,67 @@ public class Measure extends Activity implements SensorEventListener {
 		Intent i = new Intent(this, Results.class);
 		i.putExtra("heightInInches", metersToInches(avgResultInMeters));
 		startActivity(i);
-		// magnitudeResult.setText(String.valueOf(avgResultInMeters));
-		// chartLayout.removeAllViews();
-		// openChart();
 	}
-
-	private void openChart() {
-		if (outPutData != null || outPutData.size() > 0) {
-			long t = outPutData.get(0).getTimestamp();
-			XYMultipleSeriesDataset dataset = new XYMultipleSeriesDataset();
-
-			XYSeries xSeries = new XYSeries("X");
-			XYSeries ySeries = new XYSeries("Y");
-			XYSeries zSeries = new XYSeries("Z");
-
-			for (Datapoint data : outPutData) {
-				xSeries.add(data.getTimestamp() - t, data.getX());
-				ySeries.add(data.getTimestamp() - t, data.getY());
-				zSeries.add(data.getTimestamp() - t, data.getZ());
-			}
-
-			dataset.addSeries(xSeries);
-			dataset.addSeries(ySeries);
-			dataset.addSeries(zSeries);
-
-			XYSeriesRenderer xRenderer = new XYSeriesRenderer();
-			xRenderer.setColor(Color.RED);
-			xRenderer.setPointStyle(PointStyle.CIRCLE);
-			xRenderer.setFillPoints(true);
-			xRenderer.setLineWidth(1);
-			xRenderer.setDisplayChartValues(false);
-
-			XYSeriesRenderer yRenderer = new XYSeriesRenderer();
-			yRenderer.setColor(Color.GREEN);
-			yRenderer.setPointStyle(PointStyle.CIRCLE);
-			yRenderer.setFillPoints(true);
-			yRenderer.setLineWidth(1);
-			yRenderer.setDisplayChartValues(false);
-
-			XYSeriesRenderer zRenderer = new XYSeriesRenderer();
-			zRenderer.setColor(Color.BLUE);
-			zRenderer.setPointStyle(PointStyle.CIRCLE);
-			zRenderer.setFillPoints(true);
-			zRenderer.setLineWidth(1);
-			zRenderer.setDisplayChartValues(false);
-
-			XYMultipleSeriesRenderer multiRenderer = new XYMultipleSeriesRenderer();
-			multiRenderer.setXLabels(0);
-			multiRenderer.setLabelsColor(Color.RED);
-			multiRenderer.setChartTitle("t vs (x,y,z)");
-			multiRenderer.setXTitle("Sensor Data");
-			multiRenderer.setYTitle("Values of Acceleration");
-			multiRenderer.setZoomButtonsVisible(true);
-			for (int i = 0; i < accelData.size(); i++) {
-
-				multiRenderer.addXTextLabel(i + 1, ""
-						+ (accelData.get(i).getTimestamp() - t));
-			}
-			for (int i = 0; i < 12; i++) {
-				multiRenderer.addYTextLabel(i + 1, "" + i);
-			}
-
-			multiRenderer.addSeriesRenderer(xRenderer);
-			multiRenderer.addSeriesRenderer(yRenderer);
-			multiRenderer.addSeriesRenderer(zRenderer);
-			multiRenderer.setLabelsTextSize(30);
-
-			// Getting a reference to LinearLayout of the MainActivity Layout
-
-			// Creating a Line Chart
-			// mChart = ChartFactory.getLineChartView(getBaseContext(), dataset,
-			// multiRenderer);
-
-			// Adding the Line Chart to the LinearLayout
-			// chartLayout.addView(mChart);
-		}
-	}
-
-
-	public boolean calibrate(View view) { 
-		if (started == true) { 
-			return false; 
-		} 
+	
+	public void cali_start() {
 		if (cali_started == false) { 
-			accelData = new ArrayList<Datapoint>(); 
-			cali_started = true; 
-			direction = UP;
-			mSensorManager.registerListener(this, mAccel, SensorManager.SENSOR_DELAY_FASTEST); 
-		} else { 
-			cali_started = false;
-			mSensorManager.unregisterListener(this); 
-			double avgGravityError = 0; 
-			int num = 0; 
-			if (accelData.size() < 100) { //debugXResult.setText("time too short"); 
-				return false; 
-			} 
-			for (int i = 40; i < accelData.size() - 40; i++) {
-				avgGravityError += accelData.get(i).getZ(); 
-				num++; 
-			} 
-			avgGravityError = avgGravityError / num; 
-			gravityOffset += avgGravityError; //debugXResult.setText(String.valueOf(gravityOffset)); 
-		} 
-		return true; 
+	 		accelData = new ArrayList<Datapoint>();
+	 		cali_started = true;
+	 		direction = UP;
+	 		mSensorManager.registerListener(this, mAccel,
+	 		SensorManager.SENSOR_DELAY_FASTEST); 
+	 	}
+	}
+	
+	public void cali_end() {
+		mSensorManager.unregisterListener(this);
+	 	double avgGravityError = 0;
+	 	int num = 0; 
+	  	for (int i = 0; i < accelData.size() - 1; i++) { 
+
+	  		avgGravityError += accelData.get(i).getZ(); 
+	  		num++; 
+	  	} 
+	  	avgGravityError = avgGravityError / num; 
+	  	gravityOffset += avgGravityError;
+	  	cali_started = false;
+	  	SharedPreferences.Editor editor = preferences.edit();
+	  	editor.putFloat("gravityOffset", (float) gravityOffset);
+	  	editor.commit();
 	}
 
+	public void calibrate(View view) {
+		if (started == true || cali_started == true) {
+			return;
+		}
+		caliDialog = new AlertDialog.Builder(this).create();
+		caliDialog
+				.setMessage("Please place the phone on a flat surface to calibrate. The whole process takes 8 seconds to complete.");
+		caliDialog.setTitle(R.string.cali_title);
+		caliDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User clicked OK button
+						caliDialog.dismiss();
+						preCaliCountdown(3);
+					}
+				});
 
-	//	public void calibrate(View view) {
-	//		if (started == true) {
-	//			return;
-	//		}
-	//		caliDialog = new AlertDialog.Builder(this).create();
-	//		caliDialog.setMessage("Please place this device on a flat surface to calibrate. The whole process takes 8 seconds to complete.");
-	//		caliDialog.setTitle(R.string.cali_title);
-	//		caliDialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-	//			public void onClick(DialogInterface dialog, int id) {
-	//				// User clicked OK button
-	//			}
-	//		});
-	//		
-	//		caliDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-	//			public void onClick(DialogInterface dialog, int id) {
-	//				// User cancelled the dialog
-	//			}
-	//		});
-	//		caliDialog.show();
-	//		return;
-	//	}
+		caliDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
+				new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						// User cancelled the dialog
+					}
+				});
+		caliDialog.show();
+		return;
+	}
+	
+	public void preCaliCountdown(int seconds) {
+		caliHandler1 = new Handler();
+		runPrecaliCountdown = new CaliRunnable(thisActivity, caliDialog, seconds);
+		caliHandler1.postDelayed(runPrecaliCountdown, 1000);
+	}
 
 	public boolean help(View view) {
 		Intent i = new Intent(this, Tutorial.class);

@@ -108,7 +108,7 @@ public class Log extends Activity {
 						checkedUser[tag] = false;
 					}
 					for (int j = 0; j < numMeasuresUser; j++){
-						if (checkedUser[tag]){
+						if (checkedUser[j]){
 							checkButtonUser = true;
 						}
 					}
@@ -193,7 +193,7 @@ public class Log extends Activity {
 						}
 					}
 			    }
-			    if(tabHost.getCurrentTab() == 0) {
+			    if(tabHost.getCurrentTab() == 1) {
 					for (int j = 0; j < numMeasuresObjects; j++){
 						if (checkedObjects[j]){
 							checkButtonObjects = true;
@@ -245,14 +245,16 @@ public class Log extends Activity {
 		int numRowsUser = userTable.getChildCount();
 		int numRowsOther = otherTable.getChildCount();
 
-		if (tabHost.getCurrentTabTag().equals("User")) {
+		if (tabHost.getCurrentTab() == 0) {
 			for (int i = 0; i < numRowsUser; i++) {
 				CheckBox thisCB = (CheckBox) ((TableRow) userTable.getChildAt(i)).getChildAt(0);
+				checkedUser[i] = true;
 				thisCB.setChecked(true);
 			}
-		} else if (tabHost.getCurrentTabTag().equals("Other")) {
+		} else if (tabHost.getCurrentTab() == 1) {
 			for (int i = 0; i < numRowsOther; i++) {
 				CheckBox thisCB = (CheckBox) ((TableRow) otherTable.getChildAt(i)).getChildAt(0);
+				checkedObjects[i] = true;
 				thisCB.setChecked(true);
 			}
 		} else {
@@ -267,14 +269,16 @@ public class Log extends Activity {
 		int numRowsUser = userTable.getChildCount();
 		int numRowsOther = otherTable.getChildCount();
 
-		if (tabHost.getCurrentTabTag().equals("User")) {
+		if (tabHost.getCurrentTab() == 0) {
 			for (int i = 0; i < numRowsUser; i++) {
 				CheckBox thisCB = (CheckBox) ((TableRow) userTable.getChildAt(i)).getChildAt(0);
+				checkedUser[i] = false;
 				thisCB.setChecked(false);
 			}
-		} else if (tabHost.getCurrentTabTag().equals("Other")) {
+		} else if (tabHost.getCurrentTab() == 1) {
 			for (int i = 0; i < numRowsOther; i++) {
 				CheckBox thisCB = (CheckBox) ((TableRow) otherTable.getChildAt(i)).getChildAt(0);
+				checkedObjects[i] = false;
 				thisCB.setChecked(false);
 			}
 		} else {
