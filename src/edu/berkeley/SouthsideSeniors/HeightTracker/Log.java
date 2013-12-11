@@ -11,9 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TabWidget;
 import android.widget.TableLayout;
@@ -27,6 +30,11 @@ public class Log extends Activity {
 	private int numMeasuresUser;
 	private int numMeasuresObjects;
 	private String current_user;
+	private boolean[] checkedUser;
+	private boolean[] checkedObjects;
+	private boolean checkButtonUser;
+	private boolean checkButtonObjects;
+	private TabHost tabHost;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +52,7 @@ public class Log extends Activity {
 		setTitle(current_user);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-		TabHost tabHost = (TabHost) findViewById(R.id.tabhost);
+		tabHost = (TabHost) findViewById(R.id.tabhost);
 		tabHost.setup();
 		TabSpec specs = tabHost.newTabSpec("User");
 		specs.setContent(R.id.userTable);
@@ -74,6 +82,7 @@ public class Log extends Activity {
 
 		//load user table
 		numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);
+		checkedUser = new boolean[numMeasuresUser+1];
 		for (int i = 0; i < numMeasuresUser; i++) {
 			TableRow newRow = new TableRow(this);
 
@@ -87,6 +96,31 @@ public class Log extends Activity {
 			int measureFeet = MainMenu.getFeet(measureResults);
 			int measureInches = MainMenu.getInches(measureResults);
 			heightView.setText(measureFeet + "'" + measureInches + "\"");
+			checkBox.setTag(Integer.toString(i));
+
+			checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+					int tag = Integer.parseInt((String) buttonView.getTag());
+					if(isChecked){
+						checkedUser[tag] = true;
+					} else {
+						checkedUser[tag] = false;
+					}
+					for (int j = 0; j < numMeasuresUser; j++){
+						if (checkedUser[tag]){
+							checkButtonUser = true;
+						}
+					}
+					ImageButton delete = (ImageButton) findViewById(R.id.deleteButton);
+					if (checkButtonUser){
+						delete.setImageResource(R.drawable.delete);
+					} else {
+						delete.setImageResource(R.drawable.deletegrey);
+					}
+					checkButtonUser = false;
+				}
+			});
 
 			newRow.addView(checkBox);
 			newRow.addView(nameView);
@@ -100,6 +134,7 @@ public class Log extends Activity {
 
 		//load Object table
 		numMeasuresObjects = preferences.getInt(current_user + "numMeasuresObjects", 0);
+		checkedObjects = new boolean[numMeasuresObjects+1];
 		for (int i = 0; i < numMeasuresObjects; i++) {
 			TableRow newRow = new TableRow(this);
 
@@ -113,6 +148,31 @@ public class Log extends Activity {
 			int measureFeet = MainMenu.getFeet(measureResults);
 			int measureInches = MainMenu.getInches(measureResults);
 			heightView.setText(measureFeet + "'" + measureInches + "\"");
+			checkBox.setTag(Integer.toString(i));
+			
+			checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+					int tag = Integer.parseInt((String) buttonView.getTag());
+					if(isChecked){
+						checkedObjects[tag] = true;
+					} else {
+						checkedObjects[tag] = false;
+					}
+					for (int j = 0; j < numMeasuresObjects; j++){
+						if (checkedObjects[j]){
+							checkButtonObjects = true;
+						}
+					}
+					ImageButton delete = (ImageButton) findViewById(R.id.deleteButton);
+					if (checkButtonObjects){
+						delete.setImageResource(R.drawable.delete);
+					} else {
+						delete.setImageResource(R.drawable.deletegrey);
+					}
+					checkButtonObjects = false;
+				}
+			});
 
 			newRow.addView(checkBox);
 			newRow.addView(nameView);
@@ -123,8 +183,37 @@ public class Log extends Activity {
 			}
 			otherTable.addView(newRow);
 		}
+		tabHost.setOnTabChangedListener(new OnTabChangeListener(){
+			@Override
+			public void onTabChanged(String tabId) {
+			    if(tabHost.getCurrentTab() == 0) {
+					for (int j = 0; j < numMeasuresUser; j++){
+						if (checkedUser[j]){
+							checkButtonUser = true;
+						}
+					}
+			    }
+			    if(tabHost.getCurrentTab() == 0) {
+					for (int j = 0; j < numMeasuresObjects; j++){
+						if (checkedObjects[j]){
+							checkButtonObjects = true;
+						}
+					}
+			    }
+			    ImageButton delete = (ImageButton) findViewById(R.id.deleteButton);
+			    if ((checkButtonUser && tabHost.getCurrentTab() == 0) || (checkButtonObjects && tabHost.getCurrentTab() == 1)){
+			    	delete.setImageResource(R.drawable.delete);
+			    } else {
+			    	delete.setImageResource(R.drawable.deletegrey);
+			    }
+			    if (tabHost.getCurrentTab() == 0){
+			    	checkButtonUser = false;
+			    } else if (tabHost.getCurrentTab() == 1){
+			    	checkButtonObjects = false;
+			    }
+			}});
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -202,9 +291,8 @@ public class Log extends Activity {
 		int numRowsOther = otherTable.getChildCount();
 
 		int numDeleted;
-		if (tabHost.getCurrentTabTag().equals("User")) {
+		if (tabHost.getCurrentTab() == 0) {
 			numDeleted = 0;
-			System.out.println("DEBUG: delete, user tab: " + tabHost.getCurrentTabTag());
 			for (int i = numRowsUser-1; i >= 0; i--) {
 				CheckBox thisCB = (CheckBox) ((TableRow) userTable.getChildAt(i)).getChildAt(0);
 				if (thisCB.isChecked()) {
@@ -227,13 +315,13 @@ public class Log extends Activity {
 				numMeasuresUser = preferences.getInt(current_user + "numMeasuresUser", 0);
 				editor.putInt(current_user + "numMeasuresUser", numMeasuresUser-numDeleted);
 				editor.putInt(current_user + "current_height", preferences.getInt(current_user 
-											+ "Measure" + (numMeasuresUser-numDeleted-1), 0));
+						+ "Measure" + (numMeasuresUser-numDeleted-1), 0));
 				editor.putInt("currentTab", tabHost.getCurrentTab());
 				editor.commit();
 				finish();
 				startActivity(getIntent());
 			}
-		} else if (tabHost.getCurrentTabTag().equals("Other")) {
+		} else if (tabHost.getCurrentTab() == 1) {
 			numDeleted = 0;
 			for (int i = numRowsOther-1; i >= 0; i--) {
 				CheckBox thisCB = (CheckBox) ((TableRow) otherTable.getChildAt(i)).getChildAt(0);

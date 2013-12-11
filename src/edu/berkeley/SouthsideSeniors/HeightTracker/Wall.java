@@ -153,7 +153,6 @@ public class Wall extends Activity {
 			dadIcon = true;
 			momIcon = true;
 			dadText.setText("Dad, Mom");
-			dadMLP.setMargins(0, 0, 0, -23);//all in pixels
 			dadText.setLayoutParams(dadMLP);
 		} else if (dadHeight == eventual){
 			eventualBool = true;

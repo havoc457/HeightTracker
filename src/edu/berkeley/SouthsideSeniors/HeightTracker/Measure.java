@@ -126,8 +126,7 @@ public class Measure extends Activity implements SensorEventListener {
 					mp.start();
 					if (swipes < 2) {
 						swipes++;
-						LayerDrawable bgShape = (LayerDrawable) getResources()
-								.getDrawable(R.drawable.bg_shape);
+						LayerDrawable bgShape = (LayerDrawable) getResources().getDrawable(R.drawable.bg_shape);
 						Drawable[] bgLayers = new Drawable[2];
 						bgLayers[0] = bgShape.getDrawable(0);
 						if (swipes == 1) {
@@ -147,7 +146,6 @@ public class Measure extends Activity implements SensorEventListener {
 						startMeasure();
 					} else {
 						swipes = 0;
-						
 						results();
 					}
 				}

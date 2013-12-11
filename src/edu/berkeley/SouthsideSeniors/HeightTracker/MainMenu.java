@@ -54,7 +54,7 @@ public class MainMenu extends Activity {
 												+ Integer.toString(getInches(current_height))+ "\"";
 		}
 		recent.setText(current_height_text);
-		//addJunkData();
+		addJunkData();
 	}
 
 	@Override
@@ -129,15 +129,39 @@ public class MainMenu extends Activity {
 	
 	public void addJunkData() {
 		SharedPreferences.Editor editor = preferences.edit();
+		/*
+		editor.putInt(current_user + "Measure" + 0, 65);
+		editor.putString(current_user + "Measure" + 0 + "Name", current_user);
+		editor.putString(current_user + "Measure" + 0 + "Date", "12/05/2013");
+		editor.putInt(current_user + "Object" + 0, 34);
+		editor.putString(current_user + "Object" + 0 + "Name", "board");
+		editor.putString(current_user + "Object" + 0 + "Date", "12/05/2013");
+		editor.putInt(current_user + "Object" + 1, 92);
+		editor.putString(current_user + "Object" + 1 + "Name", "stuff");
+		editor.putString(current_user + "Object" + 1 + "Date", "12/05/2013");
+		editor.putInt(current_user + "Object" + 2, 31);
+		editor.putString(current_user + "Object" + 2 + "Name", "table");
+		editor.putString(current_user + "Object" + 2 + "Date", "12/05/2013");
+		
+		editor.putInt(current_user + "numMeasuresObjects", 3);
+		editor.putInt(current_user + "numMeasuresUser", 1);
+		editor.putInt(current_user + "current_height", 65);
+		editor.commit();
+		
+		*/
 		int x = 5;
 		
 		for (int i = 0; i < 20; i++) {
 			editor.putInt(current_user + "Object" + i, (x+i));
 			editor.putString(current_user + "Object" + i + "Name", current_user);
 			editor.putString(current_user + "Object" + i + "Date", "12/05/2013");
+			editor.putInt(current_user + "Measure" + i, (x+i));
+			editor.putString(current_user + "Measure" + i + "Name", current_user);
+			editor.putString(current_user + "Measure" + i + "Date", "12/05/2013");
 		}
 		
 		editor.putInt(current_user + "numMeasuresObjects", 19);
-		editor.commit();
+		editor.putInt(current_user + "numMeasuresUser", 19);
+		editor.commit(); 
 	}
 }

@@ -2,14 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/editUserScroll2"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
+    android:layout_height="match_parent"
     android:background="@color/yellow" >
 
     <RelativeLayout
         android:id="@+id/editUserScroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content" >
 
         <RelativeLayout
             android:id="@+id/editUserLayout"
@@ -198,14 +197,26 @@
         <ImageButton
             android:id="@+id/editSave"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="95dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/editUserLayout"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="12dp"
             android:onClick="save"
             android:scaleType="fitXY"
             android:src="@drawable/save" />
+
+        <ImageButton
+            android:id="@+id/deleteEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="95dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/editSave"
+            android:layout_marginTop="10dp"
+            android:onClick="delete"
+            android:scaleType="fitXY"
+            android:src="@drawable/deletegrey" />
     </RelativeLayout>
 
 </ScrollView>

@@ -36,7 +36,6 @@ public class ViewUsers extends Activity {
 		ImageButton edit, userButton;
 		
 		for(int i = 12; i > num_users; i--){
-			System.out.println("I: " + i);
 			resID = getResources().getIdentifier("user" + i, "id", getPackageName());
 			text = (TextView) findViewById(resID);
 			text.setVisibility(View.GONE);
